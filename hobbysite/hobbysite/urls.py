@@ -21,6 +21,7 @@ urlpatterns = [
     path('merchstore/',include('merchstore.urls'),namespace="merchstore"),
     path('wiki/',include('wiki.urls'),namespace="wiki"),
     path('blog/',include('blog.urls',namespace="blog")),
-    path('forum/',includde('forum.urls',namespace="forum")),
+    path('forum/',include('forum.urls',namespace="forum")),
+    path('commissions/',include('commissions.urls',namespace="commissions")),
     path('admin/', admin.site.urls),
 ]
