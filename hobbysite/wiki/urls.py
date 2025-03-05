@@ -4,4 +4,4 @@ urlpatterns = [
 
 ]
 
-app_name = "merchstore"
+app_name = "wiki"
