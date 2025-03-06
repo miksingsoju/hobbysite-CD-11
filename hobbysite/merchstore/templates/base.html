@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title %}{%endblock %}
+    </title>
+    <style>
+        body {
+            background-color: yellowgreen;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 0;
+            font-weight: lighter;
+        }
+
+        #appname {
+            font-style:normal;
+            text-align: center;
+            font-size: 5em;
+            padding-top: 0.5em;
+            margin-top: 0;
+            font-weight: lighter;
+
+        }
+
+        article {
+            margin: 20px;
+            background-color: white;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+        }
+        nav ul{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>BLOG</li>
+            <li>COMMISSIONS</li>
+            <li>FORUM</li>
+            <li>WIKI</li>
+            <li>MERCHSTORE</li>
+        </ul>
+    </nav>
+    <h1 id="appname">Merchstore</h1>
+    <article>
+    {% block content %}
+    
+    {% endblock %}
+    </article>
+</body>
+</html>

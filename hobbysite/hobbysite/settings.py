@@ -59,7 +59,13 @@ ROOT_URLCONF = 'hobbysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates", 
+                 BASE_DIR / "blog" / "templates", 
+                 BASE_DIR / "commissions" / "templates",
+                 BASE_DIR / "forum" / "templates",
+                 BASE_DIR / "hobbysite" / "templates",
+                 BASE_DIR / "merchstore" / "templates",
+                 BASE_DIR / "wiki" / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
