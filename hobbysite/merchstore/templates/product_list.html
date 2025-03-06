@@ -2,11 +2,63 @@
 {%block title %} Product List {%endblock %}
 
 {% block content %}
-<h2>Product List</h2>
-THESE ARE PRODUCTS!
+<style>
+    h2 {
+        font-size: 4em;
+        padding:10px;
+        text-align: left;
+        font-weight: lighter;
+        margin: 30px;
+    }
+    li {
+        margin:0;
+        text-align: left;
+        font-style: italic;
+    }
+
+    ul {
+        display: flex; /* Enables horizontal alignment */
+        flex-wrap: wrap; /* Ensures responsiveness */
+        gap: 20px; /* Adds space between products */
+        padding: 0;
+        list-style: none; /* Removes bullet points */
+    }
+
+    #productTypes {
+        background-color: black;
+        color: white;
+    }
+
+    #productImage {
+        background-color: rgb(40, 87, 255);
+        height: 300px;
+        color: white;
+        margin-bottom: 10px;
+        width: 30%; /* Adjust width for 3 per row */
+        min-width: 250px; /* Prevents it from being too small */
+        text-align: center;
+    }   
+
+    #product {
+        display: block;
+        margin-left: 30px;
+    }
+
+
+</style>
+
+{% for productType in productTypes %}
+<h2>{{ productType.Name }}</h2>
 <ul>
     {% for product in products %}
-        <li><a href="{{ product.get_absolute_url }}">{{ product.Name }}</a></li>
+        {% if product.ProductType.Name == productType.Name %}
+            <div id="product">
+            <div id="productImage">
+            </div>
+            <li><a href="{{ product.get_absolute_url }}">{{ product.Name }}</a> <br> {{product.Price}} </li>
+            </div>
+        {% endif %}
     {% endfor %}
 </ul>
+{% endfor %}
 {% endblock %}

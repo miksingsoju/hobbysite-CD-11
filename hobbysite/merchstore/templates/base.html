@@ -24,27 +24,47 @@
         }
 
         article {
-            margin: 20px;
+            margin: 0;
             background-color: white;
             text-align: center;
+            padding-bottom: 10px;
+        }
+        
+        nav ul {
+            list-style: none;
+            justify-content: space-between;
         }
 
-        ul {
-            list-style: none;
+        li {
+            list-style-type: none;
         }
-        nav ul{
-            display: flex;
+
+        nav ul li {
+            display: inline-block; /* Makes the list items inline */
+            list-style-type: none;
+            margin: 0 50px; /* Adds spacing between list items */
+            font-size: 1.5em;
+        }
+
+        nav li:hover {
+            color:white;
+        }
+
+        nav a:visited, a::before, a{
+            color: black;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <nav>
         <ul>
-            <li>BLOG</li>
-            <li>COMMISSIONS</li>
-            <li>FORUM</li>
-            <li>WIKI</li>
-            <li>MERCHSTORE</li>
+            <a href=""><li>HOBBYSITE</li></a>
+            <a href=""><li>BLOG</li></a>
+            <a href=""><li>COMMISSIONS</li></a>
+            <a href=""><li>FORUM</li></a>
+            <a href=""><li>WIKI</li></a>
+            <a href=""><li>MERCHSTORE</li></a>
         </ul>
     </nav>
     <h1 id="appname">Merchstore</h1>
