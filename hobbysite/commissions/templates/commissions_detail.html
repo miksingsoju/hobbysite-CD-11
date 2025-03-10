@@ -2,7 +2,18 @@
 {%block title %} Commission Details {%endblock %}
 
 {% block content %}
-<h1>Commission Detail</h1>
 
+    <h1>Commission Detail</h1>
+    <h3>{{ commission.title }}</h3>
+    <p>{{ commission.description }}</p>
+    <p>People Required: {{ commission.people_required }}</p>
+    <p>Created On: {{ commission.created_on }}</p>
+
+    <h3>Comments</h3>
+    {% for comment in comments %}
+        <p>{{ comment.entry }} - {{ comment.created_on }}</p>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
 
 {% endblock %}

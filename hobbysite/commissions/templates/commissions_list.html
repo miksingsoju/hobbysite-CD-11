@@ -2,11 +2,13 @@
 {%block title %} Commissions List {%endblock %}
 
 {% block content %}
-<h1>Commissions List</h1>
+<h2>Commissions List</h2>
 
 <ol>
     {% for commission in commissions %}
-        <li><a href="{{ commission.get_absolute_url }}">{{ commission.name }}</a></li>
+        <li><a href="{{ commission.get_absolute_url }}" > {{ commission.title }}</a></li>
+    {% empty %}
+        <p>No commissions yet.</p>
     {% endfor %}
 </ol>
 {% endblock %}

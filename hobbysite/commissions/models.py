@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 # Create your models here.
-class Commission(model.Models):
+class Commission(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     people_required = models.PositiveIntegerField()
@@ -16,12 +16,11 @@ class Commission(model.Models):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('commissions:commission-detail', args=[self.id])
+        return reverse('commissions:detail', args=[self.pk])
 
 
-
-class Comment(model.Models):
-    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='commissions')
+class Comment(models.Model):
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='comments')
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
