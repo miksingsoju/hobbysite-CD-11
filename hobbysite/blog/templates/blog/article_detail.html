@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <article class="article-detail">
+    <header>
+      <h1>{{ article.title }}</h1>
+      <p class="article-meta">
+        {% if article.category %}
+          <strong>Category:</strong> {{ article.category.name }}
+        {% else %}
+          <strong>Category:</strong> None
+        {% endif %}
+        <br>
+        <strong>Published on:</strong> {{ article.created_on|date:"F j, Y, g:i a" }}
+      </p>
+    </header>
+    <section class="article-entry">
+      {{ article.entry|linebreaks }}
+    </section>
+    <footer>
+      <p>
+        <a href="{% url 'article-list' %}" class="btn btn-primary">Back to Articles</a>
+      </p>
+    </footer>
+  </article>
+</div>
+{% endblock %}

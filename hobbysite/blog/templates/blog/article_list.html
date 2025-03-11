@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>Blog Articles</h1>
+  {% if articles %}
+    <ul class="article-list">
+      {% for article in articles %}
+        <li class="article-item">
+          <h2>
+            <a href="{% url 'article-detail' article.id %}">{{ article.title }}</a>
+          </h2>
+          <p class="article-meta">
+            Published on {{ article.created_on|date:"F j, Y, g:i a" }}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No articles available.</p>
+  {% endif %}
+</div>
+{% endblock %}
