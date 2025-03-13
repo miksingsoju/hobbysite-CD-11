@@ -1,23 +1,20 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="container">
-  <h1>Blog Articles</h1>
-  {% if articles %}
-    <ul class="article-list">
-      {% for article in articles %}
-        <li class="article-item">
-          <h2>
-            <a href="{% url 'article-detail' article.id %}">{{ article.title }}</a>
-          </h2>
-          <p class="article-meta">
-            Published on {{ article.created_on|date:"F j, Y, g:i a" }}
-          </p>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No articles available.</p>
-  {% endif %}
+  <h1>The Basketball G.O.A.T.s</h1>
+  <ul class="list-group">
+    {% for category in categories %}
+      <li class="list-group-item">
+        <h3>
+          <a href="{% url 'blog:articles_by_category' category.id %}">
+            {{ category.name }}
+          </a>
+        </h3>
+        <p>{{ category.description }}</p>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No categories available.</li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}

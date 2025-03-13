@@ -12,15 +12,17 @@
           <strong>Category:</strong> None
         {% endif %}
         <br>
-        <strong>Published on:</strong> {{ article.created_on|date:"F j, Y, g:i a" }}
+        <strong>Published on:</strong> {{ article.created_at|date:"F j, Y, g:i a" }}
+        <strong>Last updated on:</strong> {{ article.updated_at|date:"F j, Y, g:i a" }}
+
       </p>
     </header>
     <section class="article-entry">
-      {{ article.entry|linebreaks }}
+      {{ article.content|linebreaks }}
     </section>
     <footer>
       <p>
-        <a href="{% url 'article-list' %}" class="btn btn-primary">Back to Articles</a>
+        <a href="{% url 'blog:article_list' %}" class="btn btn-primary">Back to Articles</a>
       </p>
     </footer>
   </article>
