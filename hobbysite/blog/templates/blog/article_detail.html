@@ -1,29 +1,20 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="container">
-  <article class="article-detail">
+<div class="container my-4">
+  <article class="article-detail p-4 shadow-sm rounded bg-light">
     <header>
-      <h1>{{ article.title }}</h1>
-      <p class="article-meta">
-        {% if article.category %}
-          <strong>Category:</strong> {{ article.category.name }}
-        {% else %}
-          <strong>Category:</strong> None
-        {% endif %}
-        <br>
-        <strong>Published on:</strong> {{ article.created_at|date:"F j, Y, g:i a" }}
+      <h1 class="text-primary">{{ article.title }}</h1>
+      <p class="text-muted">
+        <strong>Category:</strong> {{ article.category.name }} <br>
+        <strong>Published on:</strong> {{ article.created_at|date:"F j, Y, g:i a" }} <br>
         <strong>Last updated on:</strong> {{ article.updated_at|date:"F j, Y, g:i a" }}
-
       </p>
     </header>
     <section class="article-entry">
       {{ article.content|linebreaks }}
     </section>
     <footer>
-      <p>
-        <a href="{% url 'blog:article_list' %}" class="btn btn-primary">Back to Articles</a>
-      </p>
+      <a href="{% url 'blog:articles_by_category' article.category.id %}" class="btn btn-primary mt-3">Back to Articles</a>
     </footer>
   </article>
 </div>

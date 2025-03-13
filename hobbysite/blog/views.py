@@ -18,15 +18,3 @@ def articles_by_category(request, category_id):
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     return render(request, 'blog/article_detail.html', {'article': article})
-
-#optional
-# class ArticleListView(ListView):
-#     model = Article
-#     template_name = 'blog/article_list.html'
-#     context_object_name = 'articles'
-
-# class ArticleDetailView(DetailView):
-#     model = Article
-#     template_name = 'blog/article_detail.html'
-#     context_object_name = 'article'
-
