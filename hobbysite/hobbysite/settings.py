@@ -65,8 +65,8 @@ TEMPLATES = [
                  BASE_DIR / "forum" / "templates",
                  BASE_DIR / "hobbysite" / "templates",
                  BASE_DIR / "merchstore" / "templates",
-                 BASE_DIR / "wiki" / "templates"],
-        'APP_DIRS': True,
+                 BASE_DIR / "wiki" / "templates"], # Edited settings because I initially didn't understand why django
+        'APP_DIRS': True,                          # Asked us to put a /templates/'appname'/ folder before storing html, too much effort to put back
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

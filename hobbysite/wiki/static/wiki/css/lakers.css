@@ -1,0 +1,42 @@
+.accordion {
+    --bs-accordion-bg: #552583; /* Lakers Purple */
+    --bs-accordion-color: #FDB927; /* Lakers Gold */
+    --bs-accordion-border-color: #FDB927; /* Gold border */
+    --bs-accordion-border-radius: 10px; /* Slightly rounded corners */
+    
+    --bs-accordion-btn-bg: #FDB927; /* Gold button */
+    --bs-accordion-btn-color: #552583; /* Purple text */
+    --bs-accordion-btn-padding-x: 15px;
+    --bs-accordion-btn-padding-y: 12px;
+
+    --bs-accordion-active-bg: #552583; /* Keep active background purple */
+    --bs-accordion-active-color: #FFFFFF; /* White text for active button */
+
+    --bs-accordion-btn-focus-box-shadow: 0 0 10px rgba(253, 185, 39, 0.8); /* Gold glow on focus */
+}
+
+.accordion-button {
+    font-weight: bold;
+    font-size: 1.2rem; /* Slightly bigger text */
+}
+
+.accordion-body {
+    background-color: #FFFFFF; /* White background for content */
+    color: #552583; /* Purple text */
+}
+
+/* Dropdown Styling */
+.dropdown-menu {
+    background-color: #FDB927; /* Gold background */
+    border: 2px solid #552583; /* Purple border */
+}
+
+.dropdown-item {
+    color: #552583; /* Purple text */
+    font-weight: bold;
+}
+
+.dropdown-item:hover {
+    background-color: #552583; /* Purple on hover */
+    color: #FDB927; /* Gold text */
+}
