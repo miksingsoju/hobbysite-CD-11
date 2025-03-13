@@ -21,7 +21,9 @@ class Product(models.Model):
         ProductType,
         on_delete=models.SET_NULL, 
         null=True)
-    
+
+    ImageURL = models.CharField(max_length=2000)
+
     Description = models.TextField()
     Price = models.DecimalField(
         max_digits=50,
