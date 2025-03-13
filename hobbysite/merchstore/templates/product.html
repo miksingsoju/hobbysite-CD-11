@@ -3,9 +3,60 @@
 
 {% block content %}
 <style>
-    
+    #product-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    #product-image {
+        width: 40%;
+        max-width: 460px;
+        padding-right: 20px;
+        margin-right:  2.5vw;
+    }
+
+    #product-image {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    #product-details {
+        width: 55%;
+        text-align: left;
+    }
+
+    #product-title {
+        font-size: 3rem;
+        font-weight: normal;
+    }
+
+    #product-price {
+        font-size: 18px;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    #product-description {
+        font-size: 16px;
+        color: #555;
+    }
 </style>
-<h2>{{ product.Name }} </h2>
-    {{product.Price}}
-    {{product.Description}}
+
+<div id="product-container">
+    <div id="product-image">
+        <img id="product-image" src="{{product.ImageURL}}" alt="{{ product.Name }}">
+    </div>
+    <div id="product-details">
+        <h2 id="product-title">{{ product.Name }}</h2>
+        <p id="product-price">₱{{ product.Price }} PHP</p>
+        <p id="product-description">{{ product.Description }}</p>
+        
+    </div>
+</div>
+
 {% endblock %}
