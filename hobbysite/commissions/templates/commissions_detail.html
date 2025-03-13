@@ -1,19 +1,39 @@
-{% extends "base.html" %}
-{%block title %} Commission Details {%endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Commissions {% endblock %}
 
 {% block content %}
+    <div class='d-flex'>
+        <!-- Mini Commissions List Sidebar -->
+        <div class='d-flex flex-column flex-shrink-0 p-3 position-fixed start-0 vh-100 mt-6' style='background-color: aquamarine; width: 280px;'>
+            <p class='text-black font-weight: bold'>Commissions List (mini):</p>
+            <ul class='nav nav-pills flex-column mb-auto'>
+                {% for commission in commissions %}
+                    <li class='nav-item'>
+                        <a href='{{ commission.get_absolute_url }}' class='nav-link text-black' style='background-color: aquamarine;'>{{ commission.title }}</a>
+                    </li>
+                {% empty %}
+                    <p>No commissions yet.</p>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h1>Commission Detail</h1>
-    <h3>{{ commission.title }}</h3>
-    <p>{{ commission.description }}</p>
-    <p>People Required: {{ commission.people_required }}</p>
-    <p>Created On: {{ commission.created_on }}</p>
-
-    <h3>Comments</h3>
-    {% for comment in comments %}
-        <p>{{ comment.entry }} - {{ comment.created_on }}</p>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
+        <!-- Content -->
+        <div class='container d-flex flex-column justify-content-center align-items-center text-center'>
+            <h1 class='fw-bold'>Commission Detail</h1>
+            <h3 class='fw-bold'>{{ commission.title }}</h3>
+            <p>{{ commission.description }}</p>
+            <p>Created On: {{ commission.created_on }}</p>
+        
+            <h3 class='fw-bold mt-4'>Comments</h3>
+            {% for comment in comments %}
+                <p>"{{ comment.entry }}"</p>
+                <p>  - Created: {{ comment.created_on }}, Updated: {{ comment.updated_on }}</p>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

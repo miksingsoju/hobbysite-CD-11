@@ -7,6 +7,7 @@ def commission_list(request):
 
 def commission_detail(request, num = 1):   
     commission = get_object_or_404(Commission, pk = num)
-    comments = commission.comments.all()           # comments is the related_name of the foreign key
-    context = { 'commission' : commission, 'comments' : comments}
+    comments = commission.comments.all()  
+    commissions = Commission.objects.all()
+    context = { 'commission' : commission, 'comments' : comments, 'commissions' : commissions}  
     return render(request, 'commissions_detail.html', context)

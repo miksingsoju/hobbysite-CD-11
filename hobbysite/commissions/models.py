@@ -3,7 +3,7 @@ from django.urls import reverse
 
 # Create your models here.
 class Commission(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=255)
     description = models.TextField()
     people_required = models.PositiveIntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -30,4 +30,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment on {self.commission.title}'
-
