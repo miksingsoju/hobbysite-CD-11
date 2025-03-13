@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.template import loader
 from .models import Product, ProductType
 
-# Create your views here.
+# This loads the list of products
 def product_list(request):
     products = Product.objects.all()
     productTypes = ProductType.objects.all()
@@ -12,6 +12,7 @@ def product_list(request):
     }
     return render(request,'product_list.html',ctx)
 
+# This loads the product information
 def product_detail(request,num=1):
     product = Product.objects.get(id=num)
     ctx = {
