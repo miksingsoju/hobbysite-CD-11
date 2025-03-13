@@ -4,14 +4,16 @@
 {% block title %} Commissions {% endblock %}
 
 {% block content %}
-    <div class='d-flex'>
+    <div class= 'd-flex'>
         <!-- Mini Commissions List Sidebar -->
-        <div class='d-flex flex-column flex-shrink-0 p-3 position-fixed start-0 vh-100 mt-6' style='background-color: aquamarine; width: 280px;'>
-            <p class='text-black font-weight: bold'>Commissions List (mini):</p>
-            <ul class='nav nav-pills flex-column mb-auto'>
+        <!-- Adds a sidebar where you can click to switch between commission comments -->
+        <div class= 'd-flex flex-column flex-shrink-0 p-3 position-fixed start-0 vh-100 mt-6' style='background-color: aquamarine; width: 280px;'>
+            <!-- Basically the same thing as commissions_list -->
+            <p class= 'text-black font-weight: bold'>Commissions List:</p>
+            <ul class= 'nav nav-pills flex-column mb-auto'>
                 {% for commission in commissions %}
-                    <li class='nav-item'>
-                        <a href='{{ commission.get_absolute_url }}' class='nav-link text-black' style='background-color: aquamarine;'>{{ commission.title }}</a>
+                    <li class= 'nav-item'>
+                        <a href= '{{ commission.get_absolute_url }}' class='nav-link text-black' style='background-color: aquamarine;'>{{ commission.title }}</a>
                     </li>
                 {% empty %}
                     <p>No commissions yet.</p>
@@ -19,18 +21,18 @@
             </ul>
         </div>
 
-        <!-- Content -->
-        <div class='container d-flex flex-column justify-content-center align-items-center text-center'>
-            <h1 class='fw-bold'>Commission Detail</h1>
-            <h3 class='fw-bold'>{{ commission.title }}</h3>
-            <p>{{ commission.description }}</p>
+        <!-- Acts as a subheader stating the commission being commented on -->
+        <div class=' container d-flex flex-column justify-content-center align-items-center text-center'>
+            <h1 class=' fw-bold'>Commission Detail</h1>
+            <h3 class=' fw-bold'>{{ commission.title }}</h3>
             <p>Created On: {{ commission.created_on }}</p>
-        
-            <h3 class='fw-bold mt-4'>Comments</h3>
+        <!-- Creates the comments, text fields and creation/update date -->
+            <h3 class=' fw-bold mt-4'>Comments</h3>
             {% for comment in comments %}
                 <p>"{{ comment.entry }}"</p>
                 <p>  - Created: {{ comment.created_on }}, Updated: {{ comment.updated_on }}</p>
-            {% empty %}
+            <!-- If comments is empty then there is no comments -->
+                {% empty %}
                 <p>No comments yet.</p>
             {% endfor %}
         </div>

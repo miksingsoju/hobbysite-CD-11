@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Comment, Commission
 
-# Register your models here.
+# added admin panels containing the model parameters
 class CommissionAdmin(admin.ModelAdmin):
     model = Commission
     search_fields = ('title','description', 'people_required', 'created_on','updated_on',)
