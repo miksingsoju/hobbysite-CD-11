@@ -20,11 +20,11 @@ class Article(models.Model):
         null=True,
         blank=True
     )
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-created_on']
         verbose_name = 'Article'
         verbose_name_plural = 'Articles'

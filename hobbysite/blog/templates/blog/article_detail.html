@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %} {{ article.title }} {%endblock%}
 
 {% block content %}
 <div class="container my-4">
@@ -23,7 +24,7 @@
 
     <!-- Main Content Section -->
     <section class="article-entry">
-      {{ article.content|linebreaks }}
+      {{ article.entry|linebreaks }}
     </section>
 
     <!-- Footer with Navigation Link -->
