@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.template import loader
 from .models import Product, ProductType
 
 # This loads the list of products

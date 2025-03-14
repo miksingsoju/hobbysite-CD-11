@@ -6,8 +6,8 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'updated_at')
-    list_filter = ('category', 'created_at')
+    list_display = ('title', 'created_on', 'updated_on')
+    list_filter = ('category', 'created_on')
     search_fields = ('title', 'entry')
 
 admin.site.register(Article, ArticleAdmin)

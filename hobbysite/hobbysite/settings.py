@@ -59,14 +59,8 @@ ROOT_URLCONF = 'hobbysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates", 
-                 BASE_DIR / "blog" / "templates", 
-                 BASE_DIR / "commissions" / "templates",
-                 BASE_DIR / "forum" / "templates",
-                 BASE_DIR / "hobbysite" / "templates",
-                 BASE_DIR / "merchstore" / "templates",
-                 BASE_DIR / "wiki" / "templates"],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / "hobbysite" / "templates"], # Added a specific directory to check for the base.html to be loaded
+        'APP_DIRS': True, # Should allow checking of templates folders in individual apps                          
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

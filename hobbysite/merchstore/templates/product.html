@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ product.Name }}{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
 <style>
@@ -49,12 +49,12 @@
 <h1>Merchstore</h1>
 <div id="product-container">
     <div id="product-image">
-        <img id="product-image" src="{{product.ImageURL}}" alt="{{ product.Name }}">
+        <img id="product-image" src="{{product.imageURL}}" alt="{{ product.name }}">
     </div>
     <div id="product-details">
-        <h2 id="product-title">{{ product.Name }}</h2>
-        <p id="product-price">₱{{ product.Price }} PHP</p>
-        <p id="product-description">{{ product.Description }}</p>
+        <h2 id="product-title">{{ product.name }}</h2>
+        <p id="product-price">₱{{ product.price }} PHP</p>
+        <p id="product-description">{{ product.description }}</p>
         
     </div>
 </div>
