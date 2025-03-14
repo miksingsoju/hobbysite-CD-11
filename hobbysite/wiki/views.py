@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from .models import Article, ArticleCategory
 
-# Storing homepage here since I coded it
+# Storing homepage here since I coded it, prevents the need for a homepage app
 def homepage(request):
     return render(request, "homepage.html")
 

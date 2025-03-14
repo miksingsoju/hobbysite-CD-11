@@ -2,11 +2,11 @@ from django.db import models
 from django.urls import reverse
 
 class ArticleCategory(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50, unique=True) # Set unique to prevent duplicate Categories
     description = models.TextField()
     
     class Meta:
-        ordering = ["name"]  # Sort categories by name in ascending order
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -17,8 +17,7 @@ class Article(models.Model):
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,  # Set to NULL when the category is deleted
-        null=True,
-        blank=True,
+        null=True, # So django does not crash out when category is deleted
         related_name="articles"
     )
     entry = models.TextField()
@@ -31,5 +30,5 @@ class Article(models.Model):
     def __str__(self):
         return self.title
     
-    def get_absolute_url(self):
+    def get_absolute_url(self): # Prevents the need for hard-coded
         return reverse('wiki:article_detail', args=[str(self.id)])
