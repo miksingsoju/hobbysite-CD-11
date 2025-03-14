@@ -6,9 +6,12 @@ from .models import Product, ProductType
 
 class ProductTypeAdmin(admin.ModelAdmin):
     model = ProductType
+    list_display = ('Name', 'Description')
 
 class ProductAdmin(admin.ModelAdmin):
     model = Product
+    list_display = ('Name', 'Description','Price')
+
 
 # registering the model and the admin is what tells
 # Django that admin pages must be generated for the models specified

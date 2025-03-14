@@ -11,6 +11,9 @@ class ProductType(models.Model):
     
     def get_absolute_url(self):
         return reverse('merchstore:productType-detail', args=[self.id])
+    
+    def __str__(self):
+        return self.Name
 
 class Product(models.Model):
     Name = models.CharField(max_length=255)
@@ -18,7 +21,9 @@ class Product(models.Model):
         ProductType,
         on_delete=models.SET_NULL, 
         null=True)
-    
+
+    ImageURL = models.CharField(max_length=2000)
+
     Description = models.TextField()
     Price = models.DecimalField(
         max_digits=50,
@@ -30,6 +35,9 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse('merchstore:product-detail', args=[self.id])
+    
+    def __str__(self):
+        return self.Name
 
 
 
