@@ -43,13 +43,13 @@
 <h1>Merchstore</h1>
 
 {% for productType in productTypes %}
-<h2 id="productType">{{ productType.Name }}</h2>
+<h2 id="productType">{{ productType.name }}</h2>
 <ul id="products">
     {% for product in products %}
-        {% if product.ProductType.Name == productType.Name %}
+        {% if product.ProductType.name == productType.name %}
             <div id="product">
-            <img id="productImage" src="{{product.ImageURL}}" alt="{{product.Name}}">
-            <li id="productName"><a href="{{ product.get_absolute_url }}">{{ product.Name }}</a> <br> ₱{{product.Price}} PHP</li>
+            <img id="productImage" src="{{product.imageURL}}" alt="{{product.name}}">
+            <li id="productName"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a> <br> ₱{{product.price}} PHP</li>
             </div>
         {% endif %}
     {% endfor %}
