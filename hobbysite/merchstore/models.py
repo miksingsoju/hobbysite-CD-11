@@ -7,7 +7,7 @@ class ProductType(models.Model):
     description = models.TextField()
 
     class Meta:
-        ordering = ['Name']
+        ordering = ['name']
     
     def get_absolute_url(self):
         return reverse('merchstore:productType-detail', args=[self.id])
@@ -31,7 +31,7 @@ class Product(models.Model):
         null=True)
     
     class Meta:
-        ordering = ['Name']
+        ordering = ['name']
     
     def get_absolute_url(self):
         return reverse('merchstore:product-detail', args=[self.id])
