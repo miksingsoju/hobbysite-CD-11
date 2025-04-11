@@ -9,6 +9,9 @@ class PostCategory(models.Model):
         verbose_name = 'Post Category'
         verbose_name_plural = 'Post Categories'
 
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(
@@ -25,4 +28,4 @@ class Post(models.Model):
         ordering = ['-created_on']
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
-
+        
