@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title%} Blog List {%endblock%}
+{% block content %}
+<div class="container">
+  <!-- Main heading for the categories page -->
+  <h1 class="text-center my-4">NBA Forum</h1>
+  
+  <!-- Bootstrap row to organize category cards -->
+  <div class="row">
+    {% for category in categories %}
+      <!-- Each category is placed in a column (3 per row on medium screens) -->
+      <div class="col-md-4">
+        <!-- Card for a single category with margin and shadow for styling -->
+        <div class="card mb-3 shadow">
+          <div class="card-body">
+            <!-- Category Title with a clickable link to articles of that category -->
+            <h3 class="card-title">
+              <a href="{% url 'blog:articles_by_category' category.id %}" class="text-decoration-none text-dark">
+                {{ category.name }}
+              </a>
+            </h3>
+            <!-- Display the category description -->
+            <p class="card-text">{{ category.description }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
