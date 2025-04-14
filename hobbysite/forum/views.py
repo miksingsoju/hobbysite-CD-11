@@ -1,4 +1,18 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from .models import PostCategory, Post
 
-def apology(request):
-    return HttpResponse("Our 5th group member will work on this at their own time, sorry! <a href='/'>Go Back</a>")
+def post_list(request):
+    categories = PostCategory.objects.prefetch_related("posts").order_by("name")
+    ctx = {'categories': categories,}
+    return render(request, 'post_list.html', ctx)
+
+def post_detail(request, post_id):
+    post = Post.objects.filter(id=post_id).first()
+    if post:
+        ctx = {'post': post}
+    else:
+        ctx = {
+            'error': "Post not found.",
+            'post': None,
+        }
+    return render(request, 'post_detail.html', ctx)
