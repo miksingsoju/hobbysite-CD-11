@@ -15,7 +15,7 @@
           <div class="card-body">
             <!-- Category Title with a clickable link to articles of that category -->
             <h3 class="card-title">
-              <a href="{% url 'blog:articles_by_category' category.id %}" class="text-decoration-none text-dark">
+              <a href="{% url 'forum:posts_by_category' category.id %}" class="text-decoration-none text-dark">
                 {{ category.name }}
               </a>
             </h3>
