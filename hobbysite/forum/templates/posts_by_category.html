@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
   <!-- Header: Display category name and description -->
-  <h1 class="text-center my-4 text-primary">
+  <h1 class="text-center my-4 text-dark">
     {{ category.name }}
   </h1>
   <p class="lead text-muted">{{ category.description }}</p>
@@ -24,7 +24,7 @@
               </h5>
               <!-- Article Metadata: Created and Updated timestamps -->
               <p class="text-muted">
-                <strong>last message:</strong> {{ post.entry }}
+                <strong>last message:</strong> {{ post.entry|truncatewords:25 }}
               </p>
             </div>
           </div>
