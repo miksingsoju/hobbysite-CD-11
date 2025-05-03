@@ -3,13 +3,13 @@
 
 {% block content %}
 <div class="container">
-  <!-- Header: Display category name and description -->
+
   <h1 class="text-center my-4 text-dark">
     {{ category.name }}
   </h1>
+
   <p class="lead text-muted">{{ category.description }}</p>
   <hr>
-
   {% if posts %}
     <div class="row-md-4 my-4">
       {% for post in posts %}
@@ -22,7 +22,7 @@
                   {{ post.title }}
                 </a>
               </h5>
-              <!-- Article Metadata: Created and Updated timestamps -->
+              <!-- Article Metadata -->
               <p class="text-muted">
                 <strong>last message:</strong> {{ post.entry|truncatewords:25 }}
               </p>

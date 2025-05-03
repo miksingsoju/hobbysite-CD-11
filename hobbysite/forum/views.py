@@ -6,15 +6,14 @@ def post_list(request):
     ctx = {'categories': categories,}
     return render(request, 'post_list.html', ctx)
 
-def posts_by_category(request, category_id):
-    # Use filter to get the category; .first() returns None if not found
+def posts_by_category(request, category_id):    
     category = PostCategory.objects.filter(id=category_id).first()
-
     posts = Post.objects.filter(category=category)
-    return render(request, 'posts_by_category.html', {
+    ctx = {
         'category': category,
         'posts': posts,
-    })
+        }
+    return render(request, 'posts_by_category.html', ctx)
 
 def post_detail(request, post_id):
     post = Post.objects.filter(id=post_id).first()
