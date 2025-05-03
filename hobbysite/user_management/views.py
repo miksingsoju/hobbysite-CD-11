@@ -1,3 +1,6 @@
 from django.shortcuts import render
+# for debugging only
+from django.http import HttpResponse
 
-# Create your views here.
+def profile(request):
+    return HttpResponse("work in progress hehe")
