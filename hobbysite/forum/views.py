@@ -8,7 +8,7 @@ def thread_list(request):
 
 def threads_by_category(request, category_id):    
     category = ThreadCategory.objects.filter(id=category_id).first()
-    threads = Thread.objects.filter(category=category)
+    threads = category.threads.all()
     ctx = {
         'category': category,
         'threads': threads,
