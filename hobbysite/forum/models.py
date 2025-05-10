@@ -1,25 +1,25 @@
 from django.db import models
 
-class PostCategory(models.Model):
+class ThreadCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
 
     class Meta:
         ordering = ['name']
-        verbose_name = 'Post Category'
-        verbose_name_plural = 'Post Categories'
+        verbose_name = 'Thread Category'
+        verbose_name_plural = 'Thread Categories'
 
     def __str__(self):
         return self.name
 
-class Post(models.Model):
+class Thread(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(
-        PostCategory, 
+        ThreadCategory, 
         on_delete=models.SET_NULL, 
         null=True,
         blank=True,
-        related_name="posts"
+        related_name="threads"
     )
     
     entry = models.TextField()
@@ -28,5 +28,5 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_on']
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
+        verbose_name = 'Thread'
+        verbose_name_plural = 'Threads'

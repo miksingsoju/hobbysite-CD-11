@@ -1,21 +1,21 @@
 from django.shortcuts import render
-from .models import PostCategory, Post
+from .models import ThreadCategory, Thread
 
-def post_list(request):
-    categories = PostCategory.objects.all()
+def thread_list(request):
+    categories = ThreadCategory.objects.all()
     ctx = {'categories': categories,}
     return render(request, 'post_list.html', ctx)
 
-def posts_by_category(request, category_id):    
-    category = PostCategory.objects.filter(id=category_id).first()
-    posts = Post.objects.filter(category=category)
+def threads_by_category(request, category_id):    
+    category = ThreadCategory.objects.filter(id=category_id).first()
+    threads = Thread.objects.filter(category=category)
     ctx = {
         'category': category,
-        'posts': posts,
+        'threads': threads,
         }
     return render(request, 'posts_by_category.html', ctx)
 
-def post_detail(request, post_id):
-    post = Post.objects.filter(id=post_id).first()
-    ctx = {'post': post}
+def thread_detail(request, thread_id):
+    thread = Thread.objects.filter(id=thread_id).first()
+    ctx = {'thread': thread}
     return render(request, 'post_detail.html', ctx)

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title%} Blog List {%endblock%}
+{% block title%} Thread List {%endblock%}
 {% block content %}
 
 <div class="container">
@@ -16,7 +16,7 @@
       <div class="card-body">
       <!-- Category Title & link -->
         <h3 class="card-title">
-          <a href="{% url 'forum:posts_by_category' category.id %}" class="text-decoration-none text-dark">
+          <a href="{% url 'forum:threads_by_category' category.id %}" class="text-decoration-none text-dark">
           {{ category.name }}
           </a>
         </h3>

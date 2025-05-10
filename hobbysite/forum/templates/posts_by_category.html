@@ -10,21 +10,21 @@
 
   <p class="lead text-muted">{{ category.description }}</p>
   <hr>
-  {% if posts %}
+  {% if threads %}
     <div class="row-md-4 my-4">
-      {% for post in posts %}
+      {% for thread in threads %}
         <div class="row-md-1 mb-3">
           <div class="card shadow">
             <div class="card-body text-start">
-              <!-- Article Title -->
+              <!-- Thread Title -->
               <h5 class="card-title my-2">
-                <a href="{% url 'forum:post_detail' post.id %}" class="text-primary">
-                  {{ post.title }}
+                <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+                  {{ thread.title }}
                 </a>
               </h5>
-              <!-- Article Metadata -->
+              <!-- Thread Metadata -->
               <p class="text-muted">
-                <strong>last message:</strong> {{ post.entry|truncatewords:25 }}
+                <strong>last message:</strong> {{ thread.entry|truncatewords:25 }}
               </p>
             </div>
           </div>
@@ -32,8 +32,8 @@
       {% endfor %}
     </div>
   {% else %}
-    <!-- Fallback message if no articles exist -->
-    <p class="text-center text-danger">No posts available in this category.</p>
+    <!-- Fallback message if no threads exist -->
+    <p class="text-center text-danger">No threads found in {{ category.name }}.</p>
   {% endif %}
 </div>
 {% endblock %}
