@@ -1,58 +1,121 @@
 {% extends 'base.html' %}
-{%block title %} Product List {%endblock %}
+{% load static %}
+
+{% block title %} Product List {% endblock %}
 
 {% block content %}
 <style>
-    #productType {
-        font-size: 4em;
-        padding:10px;
-        text-align: left;
-        font-weight: lighter;
-        margin: 30px;
+    .heading {
+        text-align: center;
+        letter-spacing: 1.5px;
+        color: black;
+        border: 2px solid black;
+        padding: 8px;
+        margin-bottom: 5vh;
+        
     }
-    #productName {
-        margin:0;
-        text-align: left;
-        font-style: italic;
-        width: 60%;
-    }
-
-    #products {
-        display: flex; /* Enables horizontal alignment */
-        flex-wrap: wrap; /* Ensures responsiveness */
-        gap: 20px; /* Adds space between products */
-        padding: 0;
-        list-style: none; /* Removes bullet points */
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5vw;
     }
 
-    #productImage {
-        height: 300px;
-        color: white;
-        margin-bottom: 10px;
-        width: 30%; /* Adjust width for 3 per row */
-        min-width: 250px; /* Prevents it from being too small */
-        max-width: 300px;
-    }   
-
-    #product {
+    .productIMG {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    li {
+        list-style: none;
         display: block;
-        margin-left: 30px;
-        max-width: 300px;
+        flex-wrap: wrap;
+        max-width: 25%;
+        row-gap: 10px;
+        align-items: center;
+    }
+
+    .product_price {
+        font-size: medium;
+        letter-spacing: 1.5px;
+        padding-bottom: 2vh;
+
+    }
+    .product_name {
+        display: block;
+        padding-bottom: 1.5vh;
+    }
+
+    .create_product {
+        border: 0.1vw solid black;
+        text-align: center;
+        padding: 10px 0 10px 0;
+        letter-spacing: 1px;    
+        max-width: 20%;
+        margin-bottom: 5vh;
+    }
+
+    .add_cart{
+        margin-top: 1vh;
+        border: 0.1vw solid black;
+        text-align: center;
+        padding: 10px 30% 10px 30%;
+        letter-spacing: 1px;
+    }
+
+    .add_cart:hover, .create_product:hover {
+        background-color: black;
+        color: white;
     }
 </style>
-<h1>Merchstore</h1>
+
+<ul>
+    <li>
+        <a href="{% url 'merchstore:product_list' %}">Home</a>
+    </li>
+    <li>
+        <a href="{% url 'merchstore:transactions' %}">My Shop</a> 
+    </li>
+    <li>
+        <a href="{%url 'merchstore:cart' %}">My Orders</a>
+    </li>
+</ul>
+
+{%if user.is_authenticated %}
+<p class="heading"> MY PRODUCTS</p>
+<a href="{% url 'merchstore:product_create'%}"><div class="create_product"> Create Product</div></a>
+
 
 {% for productType in productTypes %}
-<h2 id="productType">{{ productType.name }}</h2>
-<ul id="products">
-    {% for product in products %}
-        {% if product.ProductType.name == productType.name %}
-            <div id="product">
-            <img id="productImage" src="{{product.imageURL}}" alt="{{product.name}}">
-            <li id="productName"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a> <br> ₱{{product.price}} PHP</li>
-            </div>
-        {% endif %}
+<ul>
+    {% for product in user_products %}
+    {% if productType == product.productType%}
+
+        <li>
+            <img src="{{product.profile_image.url}}" alt="{{product.name}}" class="productIMG">
+            <span class="product_name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></span>
+            <span class="product_price">₱{{product.price}} PHP</span>
+        </li>  
+    {% endif %}
     {% endfor %}
 </ul>
 {% endfor %}
+{% endif %}
+
+<p class="heading"> ALL PRODUCTS</p>
+
+{% for productType in productTypes%}
+        <ul>
+            {% for product in products %}
+            {% if productType == product.productType%}
+            <li>
+                <img src="{{product.profile_image.url}}" alt="{{product.name}}" class="productIMG">
+                <span class="product_name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></span>
+                <span class="product_price">₱{{product.price}} PHP</span>
+                <div class="add_cart"> Add to cart</div>
+            </li>  
+            {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
 {% endblock %}
