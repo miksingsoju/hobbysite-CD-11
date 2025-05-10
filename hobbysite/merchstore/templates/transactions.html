@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}My Transactions{% endblock %}
+
+{% block content %}
+<style>
+    .transaction-group {
+        margin-bottom: 2em;
+    }
+
+    .buyer-header {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+    }
+
+    .transaction-item {
+        margin-bottom: 1em;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .product-name {
+        font-weight: bold;
+    }
+
+    .transaction-status {
+        font-size: 1.2em;
+    }
+
+    .transaction-info {
+        font-size: 1em;
+        margin-top: 5px;
+    }
+</style>
+
+<h2>Transaction List</h2>
+
+{% if grouped_transactions %}
+    {% for buyer, transactions in grouped_transactions %}
+        <div class="transaction-group">
+            <div class="buyer-header">
+                <strong>Buyer: {{ buyer.user.username }}</strong>
+            </div>
+
+            {% for transaction in transactions %}
+                <div class="transaction-item">
+                    <p class="product-name">Product: {{ transaction.product.name }}</p>
+                    <p class="transaction-status">Status: {{ transaction.status }}</p>
+
+                    <p class="transaction-info">Quantity: {{ transaction.amount }}</p>
+                    <p class="transaction-info">Total: ₱ {{ transaction.total_price|floatformat:2 }}</p>  <!-- Show total here -->
+                    <p class="transaction-info">Created on: {{ transaction.createdOn }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>You have no transactions.</p>
+{% endif %}
+
+{% endblock %}
