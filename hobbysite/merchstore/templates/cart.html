@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} My Cart {% endblock %}
+
+{% block content %}
+
+<style>
+    .cart-wrapper {
+        padding: 2rem;
+    }
+
+    .seller-section {
+        margin-bottom: 4rem;
+    }
+
+    .seller-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 0.5rem;
+    }
+
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .product-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        width: 240px;
+        padding: 15px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+
+    .product-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .product-price,
+    .product-qty,
+    .product-status,
+    .product-subtotal {
+        font-size: 0.95rem;
+        margin: 2px 0;
+    }
+
+    .empty-cart {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1.2rem;
+        color: #666;
+    }
+</style>
+
+<div class="cart-wrapper">
+    <h1>Your Cart</h1>
+
+    {% if grouped_transactions %}
+        {% for owner, transactions in grouped_transactions %}
+            <div class="seller-section">
+                <h2 class="seller-title">{{ owner.shop_name }}</h2>
+
+                <div class="product-grid">
+                    {% for transaction in transactions %}
+                        <div class="product-card">
+                            {% if transaction.product.profile_image %}
+                                <img src="{{ transaction.product.profile_image.url }}" class="product-image" alt="{{ transaction.product.name }}">
+                            {% endif %}
+                            <div class="product-name">{{ transaction.product.name }}</div>
+                            <div class="product-price">₱{{ transaction.product.price }}</div>
+                            <div class="product-qty">Quantity: {{ transaction.amount }}</div>
+                            <div class="product-status">Status: {{ transaction.get_status_display }}</div>
+                            <div class="product-subtotal">
+                                <p>Total: ₱ {{ transaction.total_price }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty-cart">You have no items in your cart.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
