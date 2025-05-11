@@ -12,13 +12,13 @@ from blog.models import Article
 def dashboard(request):
     p = request.user.profile
     return render(request, 'user_management/dashboard.html', {
-      'blog_articles':        Article.objects.filter(author=p),
-    #   'wiki_articles':        WikiArticle.objects.filter(author=p),
-    #   'forum_threads':        Thread.objects.filter(author=p),
-    #   'products_bought':      Transaction.objects.filter(buyer=p),
-    #   'products_sold':        Transaction.objects.filter(product__owner=p),
-    #   'commissions_created':  Commission.objects.filter(author=p),
-    #   'commissions_joined':   JobApplication.objects.filter(applicant=p),
+      'blog_articles':          Article.objects.all().order_by('-created_on'),
+    #   'wiki_articles':        WikiArticle.objects.all().order_by('-created_on'),
+    #   'forum_threads':        Thread.objects.all().order_by('-created_on'),
+    #   'products_bought':      Transaction.objects.all().order_by('-created_on'),
+    #   'products_sold':        Transaction.objects.all().order_by('-created_on'),
+    #   'commissions_created':  Commission.objects.all().order_by('-created_on'),
+    #   'commissions_joined':   JobApplication.objects.all().order_by('-created_on'),
     })
 
 
