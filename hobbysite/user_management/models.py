@@ -12,20 +12,3 @@ class Profile(models.Model):
     def __str__(self):
         # human-readable representation
         return self.display_name or self.user.username
-
-@receiver(post_save, sender=User)
-def create_or_update_profile(sender, instance, created, **kwargs):
-    """
-    Signal handler to ensure every User has a Profile.
-    
-    - When a User is first created, build a Profile with sensible defaults.
-    - On every subsequent save, do a get_or_create so that orphaned users still get Profiles.
-    """
-    if created:
-        Profile.objects.create(
-            user=instance,
-            display_name=instance.username,
-            email_address=instance.email or ''
-        )
-    else:
-        Profile.objects.get_or_create(user=instance)
