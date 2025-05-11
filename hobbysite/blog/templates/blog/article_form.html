@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title mb-4">{{ title }}</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+          <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+          {{ form.title }}
+          {{ form.title.errors }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+          {{ form.category }}
+          {{ form.category.errors }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.header_image.id_for_label }}" class="form-label">Header Image</label>
+          {{ form.header_image }}
+          {{ form.header_image.errors }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.entry.id_for_label }}" class="form-label">Content</label>
+          {{ form.entry }}
+          {{ form.entry.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ title }}</button>
+        <a href="{% url 'blog:article_list' %}" class="btn btn-secondary ms-2">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
