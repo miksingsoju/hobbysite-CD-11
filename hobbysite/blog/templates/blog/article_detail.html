@@ -16,7 +16,10 @@
   </div>
 
   {% if article.header_image %}
-    <img src="{{ article.header_image.url }}" class="img-fluid rounded mb-4" alt="{{ article.title }}">
+    <img 
+      src="{{ article.header_image.url }}" 
+      class="img-fluid rounded mb-4" 
+      alt="{{ article.title }}">
   {% endif %}
 
   <p class="text-muted">
