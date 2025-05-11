@@ -6,21 +6,37 @@ from .forms import ArticleForm, CommentForm
 @login_required
 def article_list(request):
     """
-    List View: shows logged‐in user’s own articles first, then all others.
+    List View: shows logged‐in user’s own articles first, then all others,
+    grouped by category for the “all other” section.
     """
-    your_articles = Article.objects.filter(author=request.user.profile)
-    other_articles = Article.objects.exclude(author=request.user.profile)
+    user_profile = request.user.profile
+    your_articles = Article.objects.filter(author=user_profile).order_by('-created_on')
+    other_articles = Article.objects.exclude(author=user_profile).order_by('-created_on')
+
+    # Build a dict mapping each category → list of other_articles in that category
+    categories = ArticleCategory.objects.all().order_by('name')
+    grouped_articles = {
+        category: other_articles.filter(category=category)
+        for category in categories
+        if other_articles.filter(category=category).exists()
+    }
+
     return render(request, 'blog/article_list.html', {
-        'your_articles': your_articles,
-        'other_articles': other_articles,
+        'user_articles': your_articles,
+        'grouped_articles': grouped_articles,
     })
 
 def article_detail(request, article_id):
     """
-    Detail View: displays article, header image, related links, comments, and comment form.
+    Detail View: displays article, header image, related links,
+    comments, and comment form if logged in.
     """
-    article = Article.objects.get(id=article_id)
-    related = Article.objects.filter(author=article.author).exclude(pk=article.pk)[:2]
+    article = get_object_or_404(Article, pk=article_id)
+    related_articles = (
+        Article.objects
+               .filter(author=article.author)
+               .exclude(pk=article.pk)[:2]
+    )
 
     comment_form = None
     if request.user.is_authenticated:
@@ -37,7 +53,7 @@ def article_detail(request, article_id):
 
     return render(request, 'blog/article_detail.html', {
         'article': article,
-        'related': related,
+        'related_articles': related_articles,
         'comments': article.comments.all(),
         'comment_form': comment_form,
     })
@@ -56,6 +72,7 @@ def article_add(request):
             return redirect('blog:article_detail', article_id=article.pk)
     else:
         form = ArticleForm()
+
     return render(request, 'blog/article_form.html', {
         'form': form,
         'title': 'Add Article',
@@ -74,6 +91,7 @@ def article_edit(request, article_id):
             return redirect('blog:article_detail', article_id=article.pk)
     else:
         form = ArticleForm(instance=article)
+
     return render(request, 'blog/article_form.html', {
         'form': form,
         'title': 'Edit Article',
