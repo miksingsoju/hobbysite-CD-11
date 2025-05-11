@@ -57,9 +57,28 @@
                 <li>
                     <a class="nav-link px-2 link-secondary" href="/merchstore">MERCHSTORE</a>
                 </li>
+                <li>
+                    <a class="nav-link px-2 link-secondary" href="/profile">PROFILE</a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
-                <a href="/admin/" class="btn btn-outline-primary me-2">Login</a>
+                {% if user.is_authenticated %}
+                    {% if user.profile %}
+                        <span class="me-3">Welcome, {{ user.profile.display_name }}!</span>
+                        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                        </form>
+                    {% else %}
+                        <span class="me-3">Welcome, {{ user.username }}!</span>
+                        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                {% endif %}
             </div>
         </header>
     </nav>
