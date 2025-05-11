@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'wiki',
     'forum',
     'commissions',
-    'blog'
+    'blog',
+    'user_management'
 ]
 
 MIDDLEWARE = [
