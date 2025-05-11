@@ -7,8 +7,7 @@ urlpatterns = [
     path('detail/<int:num>/', commission_detail, name='detail'),
     path('add/', commission_add, name = 'add'),
     path('<int:num>/edit', commission_edit, name='edit'),
-    path('job/<int:num>/apply', job_apply, name='apply'),
-    path('job/<int:num>/', job_detail, name='job_detail'),
+    path('job/<int:num>/', job_detail, name='job'),
 ]
 
 app_name = "commissions"

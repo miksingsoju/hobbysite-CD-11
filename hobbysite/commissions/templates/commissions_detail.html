@@ -4,8 +4,8 @@
 {% block title %} Commission Detail {% endblock %}
 
 {% block content %}
+    <!-- Commission Details -->
     <div>
-        <!-- Commission Details -->
         <h1 class=' fw-bold'>Commission Details</h1>
         <h3 class=' fw-bold'>{{ commission.title }}</h3>
         <p>By {{ commission.author }} created on: {{ commission.created_on }}</p>
@@ -15,8 +15,8 @@
         <p>Updated {{ commission.updated_on }}</p>
     </div>
 
+    <!-- Job list -->
     <div>
-        <!-- Job list -->
         <h3>Job List</h3>
         <ul>
             <!-- Job Details -->
@@ -28,32 +28,37 @@
                 Open Slots: {{ item.open_slots }}<br>
               </p>
 
-              <!-- The buttons T-T -->
-              {% if request.user.is_authenticated %}
+              <!-- Buttons -->
+              <!-- If user is not the author -->
+              {% if request.user.is_authenticated and request.user != commission.author %}
+                <!-- If job is full then cannot apply -->
                 {% if item.is_full %}
                     <button disabled>Job Full</button>
                 {% else %}
-                    <!-- If makes the apply button disabled or enabled -->
-                    {% if request.user != commission.author %}
-                      {% if item.already_applied %}
-                        <button type="submit" disabled>Applied</button>
-                      {% else %}
-                        <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="job_id" value="{{ item.job.id }}">
-                        <a href="{% url 'commissions:apply' commission.pk %}"><button type="button" >Apply</button></a>
-                      {% endif %}
-                    {% endif %}
-                  </form>
+                  <!-- If the user already applied to that job-->
+                  {% if item.already_applied %}
+                    <button type="submit" disabled>Applied</button>
+                  {% else %}
+                    <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="job_id" value="{{ item.job.id }}">
+                    <button type="submit">Apply</button>
+                    </form>
+                  {% endif %}
                 {% endif %}
+              {% endif %}
+              <!-- Job view to view and accept/reject applicants -->
+              {% if request.user == commission.author %}
+                <a href="{% url 'commissions:job' num=item.job.id %}"> <button type="button">View Applicants</button></a>
               {% endif %}
             </li>
           {% endfor %}
         </ul>
     </div>
 
+    <!-- Commission edit -->
     {% if request.user == commission.author %}
-        <a href="{% url 'commissions:edit' commission.pk %}"><button type="button" >Edit Commission</button></a>
+        <a href="{% url 'commissions:edit' commission.pk %}"><button type="button">Edit Commission</button></a>
     {% endif %}
     
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Job Applicants {% endblock %}
+
+{% block content %}
+
+<h3>Applicants to {{ job.role }}</h3>
+{% if applicants %}
+  <ul>
+    {% for app in applicants %}
+      <li>
+        <p> Applicant: <strong>{{ app.applicant.user.username }}</strong> </p>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="application_id" value="{{ app.id }}">
+          <label for="action_{{ app.id }}">Status:</label>
+          <select name="action" id="action_{{ app.id }}">
+            <option value="Pending" {% if app.status == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="Accepted" {% if app.status == "Accepted" %}selected{% endif %}>Accepted</option>
+            <option value="Rejected" {% if app.status == "Rejected" %}selected{% endif %}>Rejected</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No applicants yet.</p>
+{% endif %}
+
+<a href="{% url 'commissions:detail' num=job.commission.pk %}"><button type="button">Save</button></a>
+
+{% endblock %}

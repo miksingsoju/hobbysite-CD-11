@@ -9,27 +9,27 @@ from django.forms import modelformset_factory
 # this will be called when the url is commissions/list and will take the template from the commissions_list.html file
 def commission_list(request):
     if request.user.is_authenticated:
-        commissions = Commission.objects.all().distinct().order_by(models.Case(
-                models.When(author=request.user , then=0),
-                models.When(job__applications__applicant=request.user.profile , then=1),
-                models.When(status='Open', then=2),
-                models.When(status='Full', then=3),
-                models.When(status='Completed', then=4),
-                models.When(status='Discontinued', then=5),
-                default=4,
-                output_field=models.IntegerField()
-            ), '-created_on'
-        )
+        commissions = Commission.objects.annotate(custom_order=models.Case(
+            models.When(author=request.user , then=0),
+            models.When(job__applications__applicant=request.user.profile , then=1),
+            models.When(status='Open', then=2),
+            models.When(status='Full', then=3),
+            models.When(status='Completed', then=4),
+            models.When(status='Discontinued', then=5),
+            default=4,
+            output_field=models.IntegerField()
+        )).order_by('custom_order', '-created_on').distinct()
+        
     else:
-        commissions = Commission.objects.all().order_by(models.Case(
-                models.When(status='Open', then=0),
-                models.When(status='Full', then=1),
-                models.When(status='Completed', then=2),
-                models.When(status='Discontinued', then=3),
-                default=4,
-                output_field=models.IntegerField()
-            ), '-created_on'
-        )
+        commissions = Commission.objects.annotate(custom_order=models.Case(
+            models.When(status='Open', then=0),
+            models.When(status='Full', then=1),
+            models.When(status='Completed', then=2),
+            models.When(status='Discontinued', then=3),
+            default=4,
+            output_field=models.IntegerField()
+        )).order_by('custom_order', '-created_on')
+
     context = { 'commissions': commissions,}
     return render(request, 'commissions_list.html', context)
 
@@ -37,7 +37,7 @@ def commission_list(request):
 def commission_detail(request, num = 1):   
     commission = get_object_or_404(Commission, pk = num)
     jobs = commission.job.all()
-    # Prepare job data with accepted count and open status
+    # Prepare job data with accepted count, open slots and booleans isfull and alreadyapplied
     job_data = []
     for job in jobs:
         accepted_count = job.applications.filter(status='Accepted').count()
@@ -55,7 +55,7 @@ def commission_detail(request, num = 1):
             'already_applied': already_applied,
         })
 
-    # Handle application POST
+    # Handle forms for job application
     if request.method == 'POST' and request.user.is_authenticated:
         job_id = request.POST.get('job_id')
         job = get_object_or_404(Job, id=job_id)
@@ -65,7 +65,7 @@ def commission_detail(request, num = 1):
             profile = request.user.profile
             if not JobApplication.objects.filter(job=job, applicant=profile).exists():
                 JobApplication.objects.create(job=job, applicant=profile)
-        return redirect('detail', pk=num)
+        return redirect('commissions:detail' , num=num)
 
     context = { 'commission': commission, 'job_data': job_data,}   
     return render(request, 'commissions_detail.html', context)
@@ -118,25 +118,17 @@ def commission_edit(request, num=1):
 def job_apply(request, num=1):
     job = get_object_or_404(Job, pk=num)
     profile = request.user.profile
-
     # Checks if already applied
     # If user is not applied to the job,
     if not JobApplication.objects.filter(job=job, applicant=profile).exists():
         JobApplication.objects.create(job=job, applicant=profile)
-
-        # Check if job is now full
-        if job.applications.count() >= job.people_required:
-            job.status = 'Full'
-            job.save()
-
+        job.save()
     return redirect('commissions:detail', num=job.commission.pk)
 
 @login_required
 def job_detail(request, num=1):
     job = get_object_or_404(Job, pk=num)
     commission = job.commission
-
-    # Only allow the commission author to manage applicants
     if commission.author != request.user:
         return redirect('commissions:list')
 
@@ -150,4 +142,4 @@ def job_detail(request, num=1):
             application.save()
 
     applicants = job.applications.all().select_related('applicant__user')
-    return render(request, 'job_detail.html', {'job': job,'applicants': applicants,})
+    return render(request, 'job_applicants.html', {'job': job,'applicants': applicants,})

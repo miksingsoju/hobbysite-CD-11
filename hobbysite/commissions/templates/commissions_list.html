@@ -9,8 +9,7 @@
     <!-- This is a for loop that gets each commission from the commission list and its details -->
     {% for commission in commissions %}
         <li>
-            <a href= '{{ commission.get_absolute_url }}'> 
-                {{ commission.title }}</a>
+            <a href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a>
             <p>
                 Created by {{ commission.author }} on {{ commission.created_on }} <br>
                 Status: {{ commission.status }}<br>
@@ -24,8 +23,5 @@
         <a href="{% url 'commissions:add' %}"> <button type="button" >Create Commission</button></a>
     {% endif %}
 </ul>
-
-
-
 
 {% endblock %}
