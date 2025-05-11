@@ -1,49 +1,58 @@
 {% extends "base.html" %}
+{% load extra_filters %}
+
 {% block title %} Thread List {% endblock %}
+
+<!-- Template to simplify thread_list code -->
 
 {% block content %}
 <div class="container">
 <h1 class="text-center my-4 pb-1">Forum</h1>
 
 {% if categories %}  
-    <h4 class="text-center">My Threads:</h4>
+
+    <!-- User Threads -->
+    <div class="card p-4 pb-2 my-3">
+    <h4 class="text-start">My Threads:</h4>
     <div class="row my-4">
     {% for category in categories %}
+    {% if category.threads.all|anyFromUser:user %}  
         <container class="col-md-4 my-3">
         <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
             <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
-            {% if category.threads.all %}  
+                <!-- Verbose name 'threads' reverse -->
                 {% for thread in category.threads.all %}
+                    <!-- block override -->
                     {% block my_list %}
                     {% endblock %}
                 {% endfor %}
-            {% else %}
-            <!-- Fallback message if no threads exist -->
-            <p class="text-center text-danger">No threads yet.</p>
-        {% endif %}   
         </div>
         </container>  
+    {% endif %}  
     {% endfor %}
     </div>
-    
-    <h4 class="text-center">Other Threads:</h4>
+    </div>
+
+    <!-- Other Threads -->
+    <div class="card p-4 pb-2">
+    <h4 class="text-start">Other Threads:</h4>
     <div class="row my-4">
     {% for category in categories %}
+    {% if category.threads.all %}  
         <container class="col-md-4 my-3">
         <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
             <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
-            {% if category.threads.all %}  
+                <!-- Verbose name 'threads' reverse -->
                 {% for thread in category.threads.all %}
+                    <!-- block override -->
                     {% block other_list %}
                     {% endblock %}
                 {% endfor %}
-            {% else %}
-            <!-- Fallback message if no threads exist -->
-            <p class="text-center text-danger">No threads yet.</p>
-        {% endif %}   
         </div>
         </container>  
+    {% endif %}  
     {% endfor %}
+    </div>
     </div>
 {% endif %}
 

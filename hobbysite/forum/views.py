@@ -10,7 +10,7 @@ def thread_list(request):
         'threads': threads,
         'user_threads': user_threads,
     }
-    return render(request, 'list_view.html', ctx)
+    return render(request, 'thread_list.html', ctx)
 
 def thread_detail(request, thread_id):
     thread = Thread.objects.filter(id=thread_id).first()
