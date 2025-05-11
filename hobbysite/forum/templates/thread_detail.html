@@ -2,7 +2,7 @@
 {% block title %} {{ article.title }} {% endblock %}
 
 {% block content %}
-<div class="container my-4">
+<div class="container col-md-9 my-4">
     <h1 class="text-dark">{{ thread.title }}</h1>
 
     {% if thread.author %}
@@ -32,7 +32,7 @@
         </p>     
     </header>
 
-    <div class="card shadow my-3 ps-3 py-3 pb-1 text-start">
+    <div class="card shadow my-3 px-3 py-3 pb-1 text-start">
         <p>
            {{ thread.entry }} 
         </p>

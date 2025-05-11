@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.utils import timezone
 from .models import ThreadCategory, Thread
 from .forms import ThreadForm
 
@@ -35,5 +36,24 @@ def thread_detail(request, thread_id):
 
 @login_required
 def thread_create(request):
-    thread_form = ThreadForm()
-    return render(request, 'thread_create.html')
+    form = ThreadForm()
+
+    if(request.method == "POST"):
+        form = ThreadForm(request.POST, request.FILES)
+        if form.is_valid():
+            tr = Thread()
+            tr.author = request.user
+            tr.createdOn = timezone.now() # format of timezone.now() matches DateTimeField in models.
+            tr.updatedOn = tr.createdOn # if it's new, it's the same.
+
+            tr.title = form.cleaned_data.get('title')
+            tr.entry = form.cleaned_data.get('entry')
+            tr.category = form.cleaned_data.get('category')
+            tr.image = form.cleaned_data.get('image')
+            tr.save()
+
+    ctx = { 
+        "form" : form,
+    }
+
+    return render(request, 'thread_create.html', ctx)
