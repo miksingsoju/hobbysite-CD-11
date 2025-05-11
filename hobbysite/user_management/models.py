@@ -10,5 +10,4 @@ class Profile(models.Model):
     bio           = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        # human-readable representation
         return self.display_name or self.user.username
