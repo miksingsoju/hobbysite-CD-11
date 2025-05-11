@@ -71,17 +71,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.author} on {self.article}"
-
-class ArticleImage(models.Model):
-    article = models.ForeignKey(
-        Article,
-        on_delete=models.CASCADE,
-        related_name='gallery'
-    )
-    image = models.ImageField(
-        upload_to='blog/gallery/'  # stores under MEDIA_ROOT/blog/gallery/
-    )
-    caption = models.CharField(max_length=255, blank=True)
-
-    def __str__(self):
-        return self.caption or f"Image for {self.article.title}"

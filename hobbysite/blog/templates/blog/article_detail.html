@@ -21,27 +21,7 @@
       class="img-fluid rounded mb-4" 
       alt="{{ article.title }}">
   {% endif %}
-
-  {% if article.gallery.all %}
-<hr>
-<h4>Image Gallery</h4>
-<div class="row g-3 mb-5">
-  {% for img in article.gallery.all %}
-    <div class="col-3">
-      <a href="{{ img.image.url }}" target="_blank">
-        <img src="{{ img.image.url }}"
-             class="img-fluid img-thumbnail"
-             alt="{{ img.caption }}">
-      </a>
-      {% if img.caption %}
-        <p class="small text-center mt-1">{{ img.caption }}</p>
-      {% endif %}
-    </div>
-  {% endfor %}
-</div>
-{% endif %}
-
-
+  
   <p class="text-muted">
     {% if article.author %}
       <strong>By</strong> {{ article.author.display_name }} •
