@@ -10,9 +10,10 @@
       <h2>{{ title }}</h2>
       <form method="post" enctype="multipart/form-data" class="mt-4">
         {% csrf_token %}
+
         <div class="mb-3">
           {{ form.title.label_tag }}
-          {{ form.title|as_widget(attrs="class=form-control") }}
+          {{ form.title }} 
           {% for error in form.title.errors %}
             <div class="text-danger small">{{ error }}</div>
           {% endfor %}
@@ -20,7 +21,7 @@
 
         <div class="mb-3">
           {{ form.category.label_tag }}
-          {{ form.category|as_widget(attrs="class=form-select") }}
+          {{ form.category }}
           {% for error in form.category.errors %}
             <div class="text-danger small">{{ error }}</div>
           {% endfor %}
@@ -28,7 +29,7 @@
 
         <div class="mb-3">
           {{ form.header_image.label_tag }}
-          {{ form.header_image|as_widget(attrs="class=form-control") }}
+          {{ form.header_image }}
           {% for error in form.header_image.errors %}
             <div class="text-danger small">{{ error }}</div>
           {% endfor %}
@@ -36,7 +37,7 @@
 
         <div class="mb-3">
           {{ form.entry.label_tag }}
-          {{ form.entry|as_widget(attrs="class=form-control rows=6") }}
+          {{ form.entry }}
           {% for error in form.entry.errors %}
             <div class="text-danger small">{{ error }}</div>
           {% endfor %}
