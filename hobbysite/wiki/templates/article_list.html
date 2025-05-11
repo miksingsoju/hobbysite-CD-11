@@ -7,7 +7,15 @@
 <h1>Wiki</h1>
 
 {% if categories %}
-<div class="accordion" id="accordionExample">
+    {% if user.is_authenticated and user_articles %}
+        <h2>Articles by {{ user.profile.display_name }}</h2>
+        {% for article in user_articles%}
+            <ol>
+                <li><a href="{{ article.get_absolute_url }}"></a> {{ article.title }} </li>
+            </ol>
+        {% endfor %}
+    {% endif %}
+    <div class="accordion" id="accordionExample">
     {% for category in categories %}
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading{{ forloop.counter }}">
@@ -43,7 +51,7 @@
         </div>
     </div>
     {% endfor %}
-</div>
+    </div>
 {% else %}
 <p>Unfortunately, the database does not have data of my glorious King Lebron James, 
   enjoy these 3 images of the data this wiki was supposed to be about instead</p>
