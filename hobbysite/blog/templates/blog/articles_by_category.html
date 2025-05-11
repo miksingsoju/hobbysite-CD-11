@@ -3,7 +3,6 @@
 
 {% block content %}
 <div class="container">
-  <!-- Header: Display category name and description -->
   <h1 class="text-center my-4 text-primary">
     Articles in "{{ category.name }}"
   </h1>
@@ -16,16 +15,14 @@
         <div class="col-md-6 mb-4">
           <div class="card shadow">
             <div class="card-body">
-              <!-- Article Title -->
               <h3 class="card-title">
                 <a href="{% url 'blog:article_detail' article.id %}" class="text-dark">
                   {{ article.title }}
                 </a>
               </h3>
-              <!-- Article Metadata: Created and Updated timestamps -->
               <p class="text-muted small">
-                <strong>Created on:</strong> {{ article.created_at|date:"F j, Y, g:i a" }}<br>
-                <strong>Updated on:</strong> {{ article.updated_at|date:"F j, Y, g:i a" }}
+                <strong>Created on:</strong> {{ article.created_on|date:"F j, Y, g:i a" }}<br>
+                <strong>Updated on:</strong> {{ article.updated_on|date:"F j, Y, g:i a" }}
               </p>
             </div>
           </div>
@@ -33,7 +30,6 @@
       {% endfor %}
     </div>
   {% else %}
-    <!-- Fallback message if no articles exist -->
     <p class="text-center text-danger">No articles available in this category.</p>
   {% endif %}
 </div>

@@ -16,9 +16,9 @@
             None
           {% endif %}
         <br>
-        <strong>Published on:</strong> {{ article.created_at|date:"F j, Y, g:i a" }} 
+        <strong>Published on:</strong> {{ article.created_on|date:"F j, Y, g:i a" }} 
         <br>
-        <strong>Last updated on:</strong> {{ article.updated_at|date:"F j, Y, g:i a" }}
+        <strong>Last updated on:</strong> {{ article.updated_on|date:"F j, Y, g:i a" }}
       </p>
     </header>
 
