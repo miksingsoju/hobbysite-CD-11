@@ -13,7 +13,7 @@
 
     <!-- User Threads (only visible if authorized) -->
     {% if user.is_authenticated %}
-    <div class="card p-4 pb-2 my-3">
+    <div class="card p-4 pb-2 my-3 border" style="border-radius: 8px;">
     <h3 class="text-start text-muted ms-2 mt-2">{{ user }}'s Threads:</h3>
     
     <div class="row my-4">   
@@ -21,7 +21,7 @@
     {% if category.threads.all|anyFromUser:user %}  
         <container class="col-md-4 my-3">
         <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-            <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+            <h4 class="text-center mt-1 mb-4">{{ category }}</h4>      
                 <!-- Verbose name 'threads' reverse -->
                 {% for thread in category.threads.all %}
                     <!-- block override -->
@@ -37,7 +37,7 @@
     {% if no_cat_threads|anyFromUser:user %}
         <container class="col-md-4 my-3">
         <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-            <h4 class="text-center text-secondary mt-1 mb-4"> (no category) </h4>      
+            <h4 class="text-center text-muted mt-1 mb-4"> (no category) </h4>      
                 <!-- Verbose name 'threads' reverse -->
                 {% for thread in no_cat_threads %}
                     <!-- block override -->
@@ -53,7 +53,7 @@
 
     <!-- Other Threads (modified when not authorized) -->
     {% if user.is_authenticated %}
-        <div class="card p-4 pb-2">
+        <div class="card p-4 pb-2 border" style="border-radius: 8px;">
         <h3 class="text-start text-muted ms-2 mt-2">Other Threads:</h3>
         
         <div class="row my-4">
@@ -61,7 +61,7 @@
         {% if category.threads.all|anyFromOther:user %}  
             <container class="col-md-4 my-3">
             <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-                <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+                <h4 class="text-center mt-1 mb-4">{{ category }}</h4>      
                     <!-- Verbose name 'threads' reverse -->
                     {% for thread in category.threads.all %}
                         <!-- block override -->
@@ -77,7 +77,7 @@
         {% if no_cat_threads|anyFromOther:user %}
             <container class="col-md-4 my-3">
             <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-                <h4 class="text-center text-secondary mt-1 mb-4"> (no category) </h4>      
+                <h4 class="text-center text-muted mt-1 mb-4"> (no category) </h4>      
                     <!-- Verbose name 'threads' reverse -->
                     {% for thread in no_cat_threads %}
                         <!-- block override -->
@@ -92,7 +92,7 @@
 
     <!-- All threads regardless of User -->    
     {% else %}
-        <div class="card p-4 pb-2">
+        <div class="card p-4 pb-2 border" style="border-radius: 8px;">
         <h3 class="text-start text-muted ms-2 mt-2">All Threads:</h3>
         
         <div class="row my-4">
@@ -100,7 +100,7 @@
         {% if category.threads.all %}  
             <container class="col-md-4 my-3">
             <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-                <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+                <h4 class="text-center mt-1 mb-4">{{ category }}</h4>      
                     <!-- Verbose name 'threads' reverse -->
                     {% for thread in category.threads.all %}
                         <!-- block override -->
@@ -116,7 +116,7 @@
         {% if no_cat_threads %}
             <container class="col-md-4 my-3">
             <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-                <h4 class="text-center text-secondary mt-1 mb-4"> (no category) </h4>      
+                <h4 class="text-center text-muted mt-1 mb-4"> (no category) </h4>      
                     <!-- Verbose name 'threads' reverse -->
                     {% for thread in no_cat_threads %}
                         <!-- block override -->
