@@ -1,34 +1,80 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Article, ArticleCategory
+from .forms import ArticleForm, CommentForm
 
+@login_required
 def article_list(request):
-    categories = ArticleCategory.objects.all()
+    """
+    List View: shows logged‐in user’s own articles first, then all others.
+    """
+    your_articles = Article.objects.filter(author=request.user.profile)
+    other_articles = Article.objects.exclude(author=request.user.profile)
     return render(request, 'blog/article_list.html', {
-        'categories': categories,
-    })
-
-def articles_by_category(request, category_id):
-    # Use filter to get the category; .first() returns None if not found
-    category = ArticleCategory.objects.filter(id=category_id).first()
-    if not category:
-        return render(request, 'blog/articles_by_category.html', {
-            'error': "Category not found.",
-            'articles': [],
-            'category': None,
-        })
-    # Filter articles that belong to this category
-    articles = Article.objects.filter(category=category)
-    return render(request, 'blog/articles_by_category.html', {
-        'category': category,
-        'articles': articles,
+        'your_articles': your_articles,
+        'other_articles': other_articles,
     })
 
 def article_detail(request, article_id):
-    # Use filter to retrieve the article; .first() returns None if not found
-    article = Article.objects.filter(id=article_id).first()
-    if not article:
-        return render(request, 'blog/article_detail.html', {
-            'error': "Article not found.",
-            'article': None,
-        })
-    return render(request, 'blog/article_detail.html', {'article': article})
+    """
+    Detail View: displays article, header image, related links, comments, and comment form.
+    """
+    article = get_object_or_404(Article, pk=article_id)
+    related = Article.objects.filter(author=article.author).exclude(pk=article.pk)[:2]
+
+    comment_form = None
+    if request.user.is_authenticated:
+        if request.method == 'POST' and 'comment_submit' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.author = request.user.profile
+                comment.article = article
+                comment.save()
+                return redirect('blog:article_detail', article_id=article.pk)
+        else:
+            comment_form = CommentForm()
+
+    return render(request, 'blog/article_detail.html', {
+        'article': article,
+        'related': related,
+        'comments': article.comments.all(),
+        'comment_form': comment_form,
+    })
+
+@login_required
+def article_add(request):
+    """
+    Create View: uses ArticleForm to add a new article.
+    """
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user.profile
+            article.save()
+            return redirect('blog:article_detail', article_id=article.pk)
+    else:
+        form = ArticleForm()
+    return render(request, 'blog/article_form.html', {
+        'form': form,
+        'title': 'Add Article',
+    })
+
+@login_required
+def article_edit(request, article_id):
+    """
+    Update View: lets the author edit their own article.
+    """
+    article = get_object_or_404(Article, pk=article_id, author=request.user.profile)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:article_detail', article_id=article.pk)
+    else:
+        form = ArticleForm(instance=article)
+    return render(request, 'blog/article_form.html', {
+        'form': form,
+        'title': 'Edit Article',
+    })
