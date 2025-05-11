@@ -19,7 +19,7 @@ def article_detail(request, article_id):
     """
     Detail View: displays article, header image, related links, comments, and comment form.
     """
-    article = get_object_or_404(Article, pk=article_id)
+    article = Article.objects.get(id=article_id)
     related = Article.objects.filter(author=article.author).exclude(pk=article.pk)[:2]
 
     comment_form = None
