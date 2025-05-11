@@ -19,8 +19,9 @@
     {% empty %}
         <p>No commissions yet.</p>
     {% endfor %}
+
     {% if request.user.is_authenticated %}
-        <a href="{% url 'commissions:add' %}"><button type="button" >Create Commission</button></a>
+        <a href="{% url 'commissions:add' %}"> <button type="button" >Create Commission</button></a>
     {% endif %}
 </ul>
 

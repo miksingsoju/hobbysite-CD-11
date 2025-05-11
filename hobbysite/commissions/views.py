@@ -30,10 +30,7 @@ def commission_list(request):
                 output_field=models.IntegerField()
             ), '-created_on'
         )
-
-
     context = { 'commissions': commissions,}
-
     return render(request, 'commissions_list.html', context)
 
 # this will be called when the url is commissions/details/number and will take the template from the commissions_details.html file
@@ -45,11 +42,17 @@ def commission_detail(request, num = 1):
     for job in jobs:
         accepted_count = job.applications.filter(status='Accepted').count()
         is_full = accepted_count >= job.people_required
+
+        already_applied = False
+        if request.user.is_authenticated:
+            profile = request.user.profile
+            already_applied = job.applications.filter(applicant=profile).exists()
         job_data.append({
             'job': job,
             'accepted_count': accepted_count,
             'open_slots': job.people_required - accepted_count,
-            'is_full': is_full
+            'is_full': is_full,
+            'already_applied': already_applied,
         })
 
     # Handle application POST
@@ -64,12 +67,8 @@ def commission_detail(request, num = 1):
                 JobApplication.objects.create(job=job, applicant=profile)
         return redirect('detail', pk=num)
 
-    context = {
-        'commission': commission,
-        'job_data': job_data,
-    }   
+    context = { 'commission': commission, 'job_data': job_data,}   
     return render(request, 'commissions_detail.html', context)
-
 
 @login_required
 def commission_add(request):
@@ -114,7 +113,41 @@ def commission_edit(request, num=1):
         formset = JobFormSet(queryset=commission.job.all())
 
     return render(request, 'commissions_edit.html', {'form': form, 'formset': formset, 'commission': commission})
-    
+
 @login_required
-def job_apply(request):
-    return render(request)
+def job_apply(request, num=1):
+    job = get_object_or_404(Job, pk=num)
+    profile = request.user.profile
+
+    # Checks if already applied
+    # If user is not applied to the job,
+    if not JobApplication.objects.filter(job=job, applicant=profile).exists():
+        JobApplication.objects.create(job=job, applicant=profile)
+
+        # Check if job is now full
+        if job.applications.count() >= job.people_required:
+            job.status = 'Full'
+            job.save()
+
+    return redirect('commissions:detail', num=job.commission.pk)
+
+@login_required
+def job_detail(request, num=1):
+    job = get_object_or_404(Job, pk=num)
+    commission = job.commission
+
+    # Only allow the commission author to manage applicants
+    if commission.author != request.user:
+        return redirect('commissions:list')
+
+    if request.method == 'POST':
+        app_id = request.POST.get('application_id')
+        action = request.POST.get('action')
+        application = get_object_or_404(JobApplication, pk=app_id, job=job)
+
+        if action in ['Accepted', 'Rejected']:
+            application.status = action
+            application.save()
+
+    applicants = job.applications.all().select_related('applicant__user')
+    return render(request, 'job_detail.html', {'job': job,'applicants': applicants,})

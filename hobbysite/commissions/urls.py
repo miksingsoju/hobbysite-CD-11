@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import commission_list, commission_detail, commission_add, commission_edit
+from .views import commission_list, commission_detail, commission_add, commission_edit, job_apply, job_detail
 
 # configured urls to be used
 urlpatterns = [
@@ -7,7 +7,8 @@ urlpatterns = [
     path('detail/<int:num>/', commission_detail, name='detail'),
     path('add/', commission_add, name = 'add'),
     path('<int:num>/edit', commission_edit, name='edit'),
-    #path('jobs/<int:job_id>/applicants', views.job_applicants_view, name='job_applicants'),
+    path('job/<int:num>/apply', job_apply, name='apply'),
+    path('job/<int:num>/', job_detail, name='job_detail'),
 ]
 
 app_name = "commissions"

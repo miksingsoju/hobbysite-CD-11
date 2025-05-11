@@ -18,24 +18,32 @@
     <div>
         <!-- Job list -->
         <h3>Job List</h3>
-
         <ul>
-            {% for item in job_data %}
+            <!-- Job Details -->
+          {% for item in job_data %}
             <li>
-              <p>{{ item.job.role }}<br>
+              <p> Role: {{ item.job.role }}<br>
                 Required: {{ item.job.people_required }}<br>
                 Accepted: {{ item.accepted_count }}<br>
                 Open Slots: {{ item.open_slots }}<br>
               </p>
-        
+
+              <!-- The buttons T-T -->
               {% if request.user.is_authenticated %}
                 {% if item.is_full %}
                     <button disabled>Job Full</button>
                 {% else %}
-                    <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="job_id" value="{{ item.job.id }}">
-                    <button type="submit">Apply to Job</button>
+                    <!-- If makes the apply button disabled or enabled -->
+                    {% if request.user != commission.author %}
+                      {% if item.already_applied %}
+                        <button type="submit" disabled>Applied</button>
+                      {% else %}
+                        <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="job_id" value="{{ item.job.id }}">
+                        <a href="{% url 'commissions:apply' commission.pk %}"><button type="button" >Apply</button></a>
+                      {% endif %}
+                    {% endif %}
                   </form>
                 {% endif %}
               {% endif %}

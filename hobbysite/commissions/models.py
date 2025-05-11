@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 # Created the commission model with a title, description, people required, creation and update date
 class Commission(models.Model):
     status_choices = [('Open', 'Open'), ('Full', 'Full'), ('Completed', 'Completed'), ('Discontinued', 'Discontinued'), ]
-
     title = models.CharField(max_length=255)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=status_choices, default='Open')
