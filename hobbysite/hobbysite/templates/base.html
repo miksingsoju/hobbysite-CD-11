@@ -60,7 +60,14 @@
                 <li>
                     <a class="nav-link px-2 link-secondary" href="/profile">PROFILE</a>
                 </li>
-            </ul>
+                {% if user.is_authenticated %}
+                    <li>
+                    <a class="nav-link px-2 link-secondary" href="{% url 'user_management:dashboard' %}">
+                        DASHBOARD
+                    </a>
+                    </li>
+                {% endif %}
+                </ul>
             <div class="col-md-3 text-end">
                 {% if user.is_authenticated %}
                     {% if user.profile %}

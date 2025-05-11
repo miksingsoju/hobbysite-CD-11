@@ -50,12 +50,16 @@ def article_detail(request, article_id):
                 return redirect('blog:article_detail', article_id=article.pk)
         else:
             comment_form = CommentForm()
+            
+    gallery = article.gallery.all()
 
     return render(request, 'blog/article_detail.html', {
         'article': article,
         'related_articles': related_articles,
         'comments': article.comments.all(),
         'comment_form': comment_form,
+        'gallery': gallery,
+
     })
 
 @login_required
