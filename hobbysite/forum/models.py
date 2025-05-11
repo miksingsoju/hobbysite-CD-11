@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# Model inheritance through abstract class; simplifies code 
+
 class CommonInfo(models.Model):
     class Meta:
         abstract = True
