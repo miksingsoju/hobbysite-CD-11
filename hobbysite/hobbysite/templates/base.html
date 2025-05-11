@@ -59,7 +59,15 @@
                 </li>
             </ul>
             <div class="col-md-3 text-end">
-                <a href="/admin/" class="btn btn-outline-primary me-2">Login</a>
+                {% if user.is_authenticated %}
+                <span class="me-3">Welcome, {{ user.username }}!</span>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary">Logout</button>
+                </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                {% endif %}
             </div>
         </header>
     </nav>
