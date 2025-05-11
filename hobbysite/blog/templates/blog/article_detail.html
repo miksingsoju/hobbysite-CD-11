@@ -20,9 +20,10 @@
   {% endif %}
 
   <p class="text-muted">
-    <strong>By</strong> {{ article.author.display_name }}
-    • {{ article.category.name }}
-    • {{ article.created_on|date:"M j, Y, g:i a" }}
+    {% if article.author %}
+      <strong>By</strong> {{ article.author.display_name }} •
+    {% endif %}
+    {{ article.category.name }} • {{ article.created_on|date:"M j, Y, g:i a" }}
     {% if article.updated_on != article.created_on %}
       • Updated {{ article.updated_on|date:"M j, Y, g:i a" }}
     {% endif %}
@@ -57,8 +58,9 @@
   {% if comments %}
     {% for comment in comments %}
       <div class="mb-3 p-3 border rounded">
-        <p class="mb-1"><strong>{{ comment.author.display_name }}</strong> 
-           <small class="text-muted">{{ comment.created_on|date:"M j, Y, g:i a" }}</small>
+        <p class="mb-1">
+          <strong>{{ comment.author.display_name }}</strong>
+          <small class="text-muted">{{ comment.created_on|date:"M j, Y, g:i a" }}</small>
         </p>
         <p class="mb-0">{{ comment.entry|linebreaks }}</p>
       </div>
@@ -72,12 +74,14 @@
     <form method="post" class="mb-5">
       {% csrf_token %}
       <div class="mb-3">
-        {{ comment_form.entry|as_widget(attrs="class=form-control rows=3") }}
+        {{ comment_form.entry }}
         {% for error in comment_form.entry.errors %}
           <div class="text-danger small">{{ error }}</div>
         {% endfor %}
       </div>
-      <button type="submit" class="btn btn-primary">Post Comment</button>
+      <button type="submit" class="btn btn-primary" name="comment_submit">
+        Post Comment
+      </button>
     </form>
   {% else %}
     <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
