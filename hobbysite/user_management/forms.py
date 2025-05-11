@@ -4,7 +4,7 @@ from django import forms
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['display_name', 'email', 'bio']
+        fields = ['display_name', 'email_address', 'bio']
         widgets = {
             'display_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
