@@ -15,12 +15,12 @@
     {% if user.is_authenticated %}
     <div class="card p-4 pb-2 my-3 border" style="border-radius: 8px;">
     <div class="d-flex col">
-        <h3 class="col-md-11 text-start text-muted ms-2 mt-2">{{ user }}'s Threads:</h3>
-        <a href="" class="col-md-1 btn btn-outline-primary pt-3 pb-2"><h5>Add</h5></a>
+        <h4 class="col-md-11 text-start text-muted ms-2 mt-2">{{ user }}'s Threads:</h4>
+        <a href="{% url 'forum:thread_create'%}" class="col-md-1 btn btn-outline-primary pt-3 pb-2"><h6>Add</h6></a>
     </div>
     
     
-    <div class="row my-4">   
+    <div class="row my-3 mt-0">   
     {% for category in categories %}
     {% if category.threads.all|anyFromUser:user %}  
         <container class="col-md-4 my-3">
@@ -58,9 +58,9 @@
     <!-- Other Threads (modified when not authorized) -->
     {% if user.is_authenticated %}
         <div class="card p-4 pb-2 border" style="border-radius: 8px;">
-        <h3 class="text-start text-muted ms-2 mt-2">Other Threads:</h3>
+        <h4 class="text-start text-muted ms-2 mt-2">Other Threads:</h4>
         
-        <div class="row my-4">
+        <div class="row my-3 mt-0">
         {% for category in categories %}
         {% if category.threads.all|anyFromOther:user %}  
             <container class="col-md-4 my-3">
@@ -97,9 +97,9 @@
     <!-- All threads regardless of User -->    
     {% else %}
         <div class="card p-4 pb-2 border" style="border-radius: 8px;">
-        <h3 class="text-start text-muted ms-2 mt-2">All Threads:</h3>
+        <h4 class="text-start text-muted ms-2 mt-2">All Threads:</h4>
         
-        <div class="row my-4">
+        <div class="row my-3 mt-0">
         {% for category in categories %}
         {% if category.threads.all %}  
             <container class="col-md-4 my-3">

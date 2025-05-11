@@ -1,5 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import ThreadCategory, Thread
+from .forms import ThreadForm
+
+# Standard display views
 
 def thread_list(request):
     categories = ThreadCategory.objects.all()
@@ -26,3 +30,10 @@ def thread_detail(request, thread_id):
         'comments': comments,
         }
     return render(request, 'thread_detail.html', ctx)
+
+# Add and/or modify content views; requires login
+
+@login_required
+def thread_create(request):
+    thread_form = ThreadForm()
+    return render(request, 'thread_create.html')
