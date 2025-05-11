@@ -53,7 +53,10 @@
               </h5>
               <p class="card-text">
                 <small class="text-muted">
-                  by {{ article.author.display_name }} · {{ article.created_on|date:"M j, Y" }}
+                  {% if article.author %}
+                    by {{ article.author.display_name }} · 
+                  {% endif %}
+                  {{ article.created_on|date:"M j, Y" }}
                 </small>
               </p>
             </div>
