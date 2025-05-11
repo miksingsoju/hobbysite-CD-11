@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Edit Commission{% endblock %}
+
+{% block content %}
+    <h2>Add a New Commission</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">Save Changes</button> <a href="{% url 'commissions:detail' commission.pk %}"><button type="button">Return</button></a>
+        {{ form.as_p }}
+
+        <h3>Jobs</h3>
+        {{ formset.management_form }}  <!-- Important to include the management form -->
+        {% for job_form in formset %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                {{ job_form.as_p }} 
+                {% if job_form.instance.pk %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        
+    </form>
+
+{% endblock %}
