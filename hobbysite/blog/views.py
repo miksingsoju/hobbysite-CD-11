@@ -31,7 +31,7 @@ def article_detail(request, article_id):
     Detail View: displays article, header image, related links,
     comments, and comment form if logged in.
     """
-    article = get_object_or_404(Article, pk=article_id)
+    article = Article.objects.get(id=article_id)
     related_articles = (
         Article.objects
                .filter(author=article.author)
@@ -83,7 +83,7 @@ def article_edit(request, article_id):
     """
     Update View: lets the author edit their own article.
     """
-    article = get_object_or_404(Article, pk=article_id, author=request.user.profile)
+    article = Article.objects.get(id=article_id)
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES, instance=article)
         if form.is_valid():
