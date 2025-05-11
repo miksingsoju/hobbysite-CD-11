@@ -8,10 +8,10 @@
 
 {% if categories %}
     {% if user.is_authenticated and user_articles %}
-        <h2>Articles by {{ user.profile.display_name }}</h2>
+        <h3>Articles by {{ user.profile.display_name }}</h3>
         {% for article in user_articles%}
             <ol>
-                <li><a href="{{ article.get_absolute_url }}"></a> {{ article.title }} </li>
+                <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
             </ol>
         {% endfor %}
     {% endif %}
@@ -71,5 +71,7 @@
 </div>
 </div>
 {% endif %}
-
+<button>
+    <a href="{% url 'wiki:add_article' %}">Add an Article</a>
+</button>
 {% endblock %}

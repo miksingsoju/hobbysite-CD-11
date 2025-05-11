@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Article, ArticleCategory
 from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
 # For debugging only
 from django.http import HttpResponse
 
@@ -11,16 +12,17 @@ def homepage(request):
 # Shows the full list of articles sorted by category, makes use of the related name to query articles under each category in advance
 # Shows memes if the database is empty when this is called
 def articles(request):
-    user_articles = []
-    categories = []
-    
+    user_articles = Article.objects.none()
     if request.user.is_authenticated:
         user_articles = Article.objects.filter(author=request.user.profile).order_by("-created_on")
         other_articles = Article.objects.exclude(author=request.user.profile)
     else:
         other_articles = Article.objects.all()
-    
-    categories = ArticleCategory.objects.prefetch_related("articles").order_by("name")
+
+    # Prefetch only the filtered other_articles for each category
+    categories = ArticleCategory.objects.prefetch_related(
+        Prefetch("articles", queryset=other_articles.order_by("-created_on"))
+    ).order_by("name")
     
     context = {
         "user_articles": user_articles,
