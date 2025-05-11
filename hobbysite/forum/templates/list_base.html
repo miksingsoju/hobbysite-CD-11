@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %} Thread List {% endblock %}
+
+{% block content %}
+<div class="container">
+<h1 class="text-center my-4 pb-1">Forum</h1>
+
+{% if categories %}  
+    <h4 class="text-center">My Threads:</h4>
+    <div class="row my-4">
+    {% for category in categories %}
+        <container class="col-md-4 my-3">
+        <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
+            <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+            {% if category.threads.all %}  
+                {% for thread in category.threads.all %}
+                    {% block my_list %}
+                    {% endblock %}
+                {% endfor %}
+            {% else %}
+            <!-- Fallback message if no threads exist -->
+            <p class="text-center text-danger">No threads yet.</p>
+        {% endif %}   
+        </div>
+        </container>  
+    {% endfor %}
+    </div>
+    
+    <h4 class="text-center">Other Threads:</h4>
+    <div class="row my-4">
+    {% for category in categories %}
+        <container class="col-md-4 my-3">
+        <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
+            <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+            {% if category.threads.all %}  
+                {% for thread in category.threads.all %}
+                    {% block other_list %}
+                    {% endblock %}
+                {% endfor %}
+            {% else %}
+            <!-- Fallback message if no threads exist -->
+            <p class="text-center text-danger">No threads yet.</p>
+        {% endif %}   
+        </div>
+        </container>  
+    {% endfor %}
+    </div>
+{% endif %}
+
+</div>
+{% endblock %}

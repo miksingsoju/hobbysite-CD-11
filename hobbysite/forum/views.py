@@ -4,9 +4,11 @@ from .models import ThreadCategory, Thread
 def thread_list(request):
     categories = ThreadCategory.objects.all()
     threads = Thread.objects.all()
+    user_threads = Thread.objects.filter(author=request.user)
     ctx = {
         'categories': categories,
         'threads': threads,
+        'user_threads': user_threads,
     }
     return render(request, 'list_view.html', ctx)
 
