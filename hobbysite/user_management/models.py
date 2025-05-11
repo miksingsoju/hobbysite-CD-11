@@ -7,6 +7,6 @@ class Profile(models.Model):
     email_address = models.EmailField(unique=True)
     # Added for fun
     bio = models.CharField(max_length=100)
-
+    
     def __str__(self):
         return self.display_name
