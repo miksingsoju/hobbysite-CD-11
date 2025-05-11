@@ -36,4 +36,9 @@
     <p class="text-center text-danger">No threads found in {{ category.name }}.</p>
   {% endif %}
 </div>
+<footer class="mt-3">
+    <a href="{% url 'forum:thread_list' %}" class="btn btn-primary">
+        Back to Category List
+    </a>
+</footer>
 {% endblock %}

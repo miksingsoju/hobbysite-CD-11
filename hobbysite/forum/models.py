@@ -39,7 +39,8 @@ class Thread(CommonInfo):
         )
     image = models.ImageField(
         upload_to='templates/images/', 
-        null=True
+        null=True,
+        blank=True,
         )
     title = models.CharField(max_length=255)
 
@@ -50,6 +51,6 @@ class Comment(CommonInfo):
     thread = models.ForeignKey(
         Thread, 
         on_delete=models.CASCADE, 
-        related_name="comments"
+        related_name="comments",
         )
     

@@ -17,5 +17,9 @@ def threads_by_category(request, category_id):
 
 def thread_detail(request, thread_id):
     thread = Thread.objects.filter(id=thread_id).first()
-    ctx = {'thread': thread}
-    return render(request, 'thread_detail.html', ctx)
+    comments = thread.comments.all()
+    ctx = {
+        'thread': thread,
+        'comments': comments,
+        }
+    return render(request, 'detail_view.html', ctx)
