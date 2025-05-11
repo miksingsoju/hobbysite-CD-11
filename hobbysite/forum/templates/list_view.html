@@ -1,16 +1,13 @@
 {% extends "base.html" %}
-{% block title %} {{ category.name }} {%endblock%}
+{% block title %} Thread List {% endblock %}
 
 {% block content %}
 <div class="container">
 
-  <h1 class="text-center my-4 text-dark">
-    {{ category.name }}
-  </h1>
+  <h1 class="text-center my-4 pb-1">Forum</h1>
 
-  <p class="lead text-muted">{{ category.description }}</p>
-  <hr>
   {% if threads %}
+  {% for category in categories %}
     <div class="row-md-4 my-4">
       {% for thread in threads %}
         <div class="row-md-1 mb-3">
@@ -31,14 +28,11 @@
         </div>
       {% endfor %}
     </div>
+  {% endfor %}
   {% else %}
     <!-- Fallback message if no threads exist -->
-    <p class="text-center text-danger">No threads found in {{ category.name }}.</p>
+    <p class="text-center text-danger">No threads yet.</p>
   {% endif %}
 </div>
-<footer class="mt-3">
-    <a href="{% url 'forum:thread_list' %}" class="btn btn-primary">
-        Back to Category List
-    </a>
-</footer>
 {% endblock %}
+
