@@ -171,5 +171,5 @@ cython_debug/
 .pypirc
 
 # Ignore uploaded media files
-/media/
+media/
 
