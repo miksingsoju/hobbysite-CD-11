@@ -9,12 +9,14 @@
 <div class="container">
 <h1 class="text-center my-4 pb-1">Forum</h1>
 
-{% if categories %}  
+{% if threads %}  
 
-    <!-- User Threads -->
+    <!-- User Threads (only visible if authorized) -->
+    {% if user.is_authenticated %}
     <div class="card p-4 pb-2 my-3">
-    <h4 class="text-start">My Threads:</h4>
-    <div class="row my-4">
+    <h3 class="text-start text-muted ms-2 mt-2">{{ user }}'s Threads:</h3>
+    
+    <div class="row my-4">   
     {% for category in categories %}
     {% if category.threads.all|anyFromUser:user %}  
         <container class="col-md-4 my-3">
@@ -30,31 +32,104 @@
         </container>  
     {% endif %}  
     {% endfor %}
-    </div>
-    </div>
 
-    <!-- Other Threads -->
-    <div class="card p-4 pb-2">
-    <h4 class="text-start">Other Threads:</h4>
-    <div class="row my-4">
-    {% for category in categories %}
-    {% if category.threads.all|anyFromOther:user %}  
+    <!-- User threads with No Category -->
+    {% if no_cat_threads|anyFromUser:user %}
         <container class="col-md-4 my-3">
         <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
-            <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+            <h4 class="text-center text-secondary mt-1 mb-4"> (no category) </h4>      
                 <!-- Verbose name 'threads' reverse -->
-                {% for thread in category.threads.all %}
+                {% for thread in no_cat_threads %}
                     <!-- block override -->
-                    {% block other_list %}
+                    {% block no_category %}
                     {% endblock %}
                 {% endfor %}
         </div>
         </container>  
+    {% endif %} 
+    </div>
+    </div>
     {% endif %}  
-    {% endfor %}
-    </div>
-    </div>
-{% endif %}
 
+    <!-- Other Threads (modified when not authorized) -->
+    {% if user.is_authenticated %}
+        <div class="card p-4 pb-2">
+        <h3 class="text-start text-muted ms-2 mt-2">Other Threads:</h3>
+        
+        <div class="row my-4">
+        {% for category in categories %}
+        {% if category.threads.all|anyFromOther:user %}  
+            <container class="col-md-4 my-3">
+            <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
+                <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+                    <!-- Verbose name 'threads' reverse -->
+                    {% for thread in category.threads.all %}
+                        <!-- block override -->
+                        {% block other_list %}
+                        {% endblock %}
+                    {% endfor %}
+            </div>
+            </container>  
+        {% endif %}  
+        {% endfor %}
+
+        <!-- Other threads with No Category -->
+        {% if no_cat_threads|anyFromOther:user %}
+            <container class="col-md-4 my-3">
+            <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
+                <h4 class="text-center text-secondary mt-1 mb-4"> (no category) </h4>      
+                    <!-- Verbose name 'threads' reverse -->
+                    {% for thread in no_cat_threads %}
+                        <!-- block override -->
+                        {% block other_no_category %}
+                        {% endblock %}
+                    {% endfor %}
+            </div>
+            </container>  
+        {% endif %}  
+        </div>
+        </div>
+
+    <!-- All threads regardless of User -->    
+    {% else %}
+        <div class="card p-4 pb-2">
+        <h3 class="text-start text-muted ms-2 mt-2">All Threads:</h3>
+        
+        <div class="row my-4">
+        {% for category in categories %}
+        {% if category.threads.all %}  
+            <container class="col-md-4 my-3">
+            <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
+                <h4 class="text-center text-muted mt-1 mb-4">{{ category }}</h4>      
+                    <!-- Verbose name 'threads' reverse -->
+                    {% for thread in category.threads.all %}
+                        <!-- block override -->
+                        {% block no_auth_list %}
+                        {% endblock %}
+                    {% endfor %}
+            </div>
+            </container>  
+        {% endif %}  
+        {% endfor %}
+
+        <!-- All threads with No Category -->
+        {% if no_cat_threads %}
+            <container class="col-md-4 my-3">
+            <div class="px-4 py-3 h-100 card-body shadow-sm rounded bg-light">
+                <h4 class="text-center text-secondary mt-1 mb-4"> (no category) </h4>      
+                    <!-- Verbose name 'threads' reverse -->
+                    {% for thread in no_cat_threads %}
+                        <!-- block override -->
+                        {% block no_auth_no_category %}
+                        {% endblock %}
+                    {% endfor %}
+            </div>
+            </container>  
+        {% endif %}  
+        </div>
+        </div>
+    {% endif %}
+
+{% endif %}
 </div>
 {% endblock %}

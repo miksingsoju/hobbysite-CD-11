@@ -4,10 +4,16 @@ from .models import ThreadCategory, Thread
 def thread_list(request):
     categories = ThreadCategory.objects.all()
     threads = Thread.objects.all()
-    user_threads = Thread.objects.filter(author=request.user)
+    no_cat_threads = Thread.objects.filter(category=None)
+
+    user_threads = None
+    if request.user.is_authenticated:
+        user_threads = Thread.objects.filter(author=request.user)
+
     ctx = {
         'categories': categories,
         'threads': threads,
+        'no_cat_threads': no_cat_threads,
         'user_threads': user_threads,
     }
     return render(request, 'thread_list.html', ctx)
