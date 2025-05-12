@@ -32,11 +32,26 @@
         </p>     
     </header>
 
-    <div class="card shadow my-3 px-3 py-3 pb-1 text-start">
-        <p>
-           {{ thread.entry }} 
-        </p>
+    <!-- Thread main content; text entry + image if present -->
+    <div class="d-flex col column-gap-2">
+        {% if thread.image %}
+        <div class="col-md-4 card shadow my-3 px-3 py-3 pb-1 text-start">
+            <p>
+            {{ thread.entry }} 
+            </p>
+        </div>
+        <div class="col-md-8 card shadow my-3 px-3 py-3 pb-1">
+            <img src="{{ thread.image.url }}">
+        </div>
+        {% else %}
+        <div class="col-md-12 card shadow my-3 px-3 py-3 pb-1 text-start">
+            <p>
+            {{ thread.entry }} 
+            </p>
+        </div>
+        {% endif %}
     </div>
+
     </article>
 
     <article class="article-detail px-5 p-4 m-4 shadow-sm rounded bg-light">
