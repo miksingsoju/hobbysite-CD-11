@@ -8,12 +8,14 @@
     <main>
         {% if categories %}
         {% if user.is_authenticated and user_articles %}
-            <h3>Articles by {{ user.profile.display_name }}</h3>
-            {% for article in user_articles%}
-                <ul>
-                    <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
-                </ul>
-            {% endfor %}
+            <div class="user-articles-section">
+                <h3>Articles by {{ user.profile.display_name }}</h3>
+                {% for article in user_articles %}
+                    <ul>
+                        <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+                    </ul>
+                {% endfor %}
+            </div>
         {% endif %}
         <div class="accordion" id="accordionExample">
         {% for category in categories %}
@@ -71,8 +73,6 @@
     </div>
     </div>
     {% endif %}
-    <button>
-        <a href="{% url 'wiki:add_article' %}">Add an Article</a>
-    </button>
+    <a href="{% url 'wiki:add_article' %}" class="lakers-btn-purple">Add an Article</a>
 </main>
 {% endblock %}
