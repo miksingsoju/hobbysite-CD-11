@@ -13,14 +13,17 @@ def thread_list(request):
 
     # condition for login-only displays
     user_threads = None
+    other_threads = None
     if request.user.is_authenticated:
         user_threads = Thread.objects.filter(author=request.user)
+        other_threads = Thread.objects.exclude(author=request.user)
 
     ctx = {
         'categories': categories,
         'threads': threads,
         'no_cat_threads': no_cat_threads,
         'user_threads': user_threads,
+        'other_threads': other_threads,
     }
     return render(request, 'thread_list.html', ctx)
 
