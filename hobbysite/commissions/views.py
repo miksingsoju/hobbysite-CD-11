@@ -4,6 +4,7 @@ from django.db import models
 from .models import Commission, Job, JobApplication
 from .forms import CommissionForm, JobApplicationForm, JobForm
 from django.forms import modelformset_factory
+from user_management.models import Profile
 
 
 # this will be called when the url is commissions/list and will take the template from the commissions_list.html file

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from user_management.models import Profile
 
 # Created the commission model with a title, description, people required, creation and update date
 class Commission(models.Model):
@@ -30,14 +31,7 @@ class Job(models.Model):
         ordering = ['status', '-people_required', 'role']
 
     def __str__(self):
-        return f"{self.role} ({self.status})"
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    def __str__(self):
-        return self.user.username
-        
+        return f"{self.role} ({self.status})" 
 
 class JobApplication(models.Model):
     status_choices = [ ('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected'), ]
