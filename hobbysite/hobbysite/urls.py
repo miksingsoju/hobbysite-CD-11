@@ -21,8 +21,6 @@ from wiki.views import homepage
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-
 urlpatterns = [
     path('', homepage, name="homepage"),
     path('merchstore/',include('merchstore.urls',namespace="merchstore")),
