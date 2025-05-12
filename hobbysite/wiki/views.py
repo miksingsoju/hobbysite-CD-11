@@ -30,7 +30,7 @@ def articles(request):
         "categories": categories
     }
     
-    return render(request, "article_list.html", context)
+    return render(request, "wiki/article_list.html", context)
 
    
 
@@ -74,14 +74,15 @@ def article_detail(request, num=1):
         "next_article": next_article
     }
     
-    return render(request, "article_detail.html", context)
+    return render(request, "wiki/article_detail.html", context)
 
+@login_required
 def add_article(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
         if form.is_valid():
             article = form.save(commit=False)
-            article.author = request.user.profile  # set author manually
+            article.author = request.user.profile
             article.save()
             return redirect(article.get_absolute_url())
     else:
@@ -90,4 +91,18 @@ def add_article(request):
     return render(request, 'wiki/article_add.html', {'form': form})
 
 def edit_article(request, num=1):
-    return HttpResponse("Hehe still under construction")
+    article = Article.objects.get(pk=num)
+    
+    # Makes it so only the author of the article can edit it
+    if article.author != request.user.profile:
+        return redirect("wiki:article_detail", num=num)
+    
+    if request.method == "POST":
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            return redirect("wiki:article_detail", num=article.pk)
+    else:
+        form = ArticleForm(instance=article)
+        
+    return render(request, "wiki/article_edit.html", {"form": form, "article": article})
