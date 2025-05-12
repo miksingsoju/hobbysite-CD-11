@@ -61,6 +61,30 @@
         </div>
         {% endif %}
     </div>
+
+    <!-- Other thread links within same category -->
+
+    {% if not onlyInCategory %}
+    <div class="d-flex col column-gap-2">
+        Previous:
+        <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="text-primary">
+        {{ prev_thread.title }}
+        </a>
+        Next:
+        <a href="{% url 'forum:thread_detail' next_thread.id %}" class="text-primary">
+        {{ next_thread.title }}
+        </a>
+    </div>
+
+    {% elif onlyInCategory == 'pair' %}
+    <div class="d-flex col column-gap-2">
+        Other:
+        <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="text-primary">
+        {{ prev_thread.title }}
+        </a>
+    </div>
+    {% endif %}
+    
     </article>
 
     <!-- Comment section; for logged-in only -->

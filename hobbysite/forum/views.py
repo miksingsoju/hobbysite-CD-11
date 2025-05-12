@@ -26,11 +26,44 @@ def thread_list(request):
 
 def thread_detail(request, thread_id):
     thread = Thread.objects.filter(id=thread_id).first()
+    threads = Thread.objects.filter(category=thread.category)
     comments = thread.comments.all()
+
+    # code to handle prev/next (neighbor) navigation per thread
+    # index of thread in threads queryset not to be confused with id of thread objects!
+    # tldr: threads sorted by name, not ids. so id cannot be used directly
+
+    prev = 0
+    nxt = 0
+
+    onlyInCategory = False
+
+    if len(threads) == 1:
+        onlyInCategory = True
+        prev, nxt = 0, 0
+        
+    if len(threads) > 1:
+        for index, tr in enumerate(threads):
+            if tr == thread:
+                if index == len(threads) - 1:
+                    prev = index - 1
+                    nxt = 0
+                elif index == 0:
+                    prev = len(threads) - 1
+                    nxt = 1
+                else:
+                    prev = index - 1
+                    nxt = index + 1
+
+        if threads[prev] == threads[nxt]:
+            onlyInCategory = "pair"
 
     ctx = {
         'thread': thread,
         'comments': comments,
+        'prev_thread': threads[prev],
+        'next_thread': threads[nxt],
+        'onlyInCategory' : onlyInCategory,
         }
 
     # condition for login-only displays
