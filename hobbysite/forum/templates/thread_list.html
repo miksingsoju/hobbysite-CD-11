@@ -1,0 +1,106 @@
+{% extends "list_base.html" %}
+
+{% if user.is_authenticated %}
+
+  <!-- Block for User's threads -->
+
+  {% block my_list %}
+  {% if thread in user_threads %}  
+  <container class="col">
+      <div class="card shadow row-md-1 p-3 my-1">
+          <!-- Thread Title -->
+          <h6 class="card-title my-1">
+              <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+              {{ thread.title }}
+              </a>
+          </h6>
+      </div>
+  </container>
+  {% endif %}
+  {% endblock %}
+
+  <!-- User's threads without category -->
+
+  {% block no_category %}
+  {% if thread in user_threads %}  
+  <container class="col">
+      <div class="card shadow row-md-1 p-3 my-1">
+          <!-- Thread Title -->
+          <h6 class="card-title my-1">
+              <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+              {{ thread.title }}
+              </a>
+          </h6>
+      </div>
+  </container>
+  {% endif %}
+  {% endblock %}
+
+  <!-- Block for Other threads -->
+
+  {% block other_list %}
+  {% if thread not in user_threads %}  
+  <container class="col">
+      <div class="card shadow row-md-1 p-3 my-1">
+          <!-- Thread Title -->
+          <h6 class="card-title my-1">
+              <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+              {{ thread.title }}
+              </a>
+          </h6>
+      </div>
+  </container>
+  {% endif %}
+  {% endblock %}
+
+  <!-- Other threads without category -->
+
+  {% block other_no_category %}
+  {% if thread not in user_threads %}  
+  <container class="col">
+      <div class="card shadow row-md-1 p-3 my-1">
+          <!-- Thread Title -->
+          <h6 class="card-title my-1">
+              <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+              {{ thread.title }}
+              </a>
+          </h6>
+      </div>
+  </container>
+  {% endif %}
+  {% endblock %}
+  
+{% else %}
+
+  <!-- Block for All threads -->
+
+  {% block no_auth_list %}
+  <container class="col">
+      <div class="card shadow row-md-1 p-3 my-1">
+          <!-- Thread Title -->
+          <h6 class="card-title my-1">
+              <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+              {{ thread.title }}
+              </a>
+          </h6>
+      </div>
+  </container>
+  {% endblock %}
+
+  <!-- Block for All threads without category -->
+
+  {% block no_auth_no_category %}
+  <container class="col">
+      <div class="card shadow row-md-1 p-3 my-1">
+          <!-- Thread Title -->
+          <h6 class="card-title my-1">
+              <a href="{% url 'forum:thread_detail' thread.id %}" class="text-primary">
+              {{ thread.title }}
+              </a>
+          </h6>
+      </div>
+  </container>
+  {% endblock %}
+
+{% endif %}
+    

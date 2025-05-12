@@ -9,6 +9,11 @@
     <title>{%block title %}{%endblock %}
     </title>
     <style>
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
         #appname {
             font-style:normal;
             text-align: center;
@@ -21,8 +26,16 @@
 
         article {
             margin: 20px;
-            background-color: white;
             text-align: center;
+            background-color: #FFC72C; 
+            padding: 40px;
+            text-align: center;
+
+        }
+
+        article .article-header {
+            background-color: #552583 !important;
+
         }
 
         ul {
@@ -31,72 +44,116 @@
         nav ul{
             display: flex;
         }
+
+        header, footer, footer p{
+        background-color: #4B0082; 
+        color: orange;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+
+        nav header {
+
+    background-color: #4B0082 !important; 
+    color: orange !important;
+    }
+
+    nav header a,
+    nav header .nav-links {
+        color: orange !important;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    nav header .nav-link:hover {
+        color: white !important;
+        text-decoration: underline;
+    }
+
+    .login-btn {
+        background-color: transparent;
+        border: 1px solid orange;
+        color: orange;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .login-btn:hover {
+        background-color: orange;
+        color: #4B0082;
+    }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <nav class="sticky-top shadow-sm" style="background-color: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px);">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between px-2 py-1 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                    <img src="{% static 'wiki/lehannJames.png' %}" class="bi" width="80" height="72" alt="Lehann James">
+                    <img src="{% static 'wiki/lehannJames.png' %}" class="bi border" width="72" height="72" alt="Lehann James" style="border-radius: 12px;">
                 </a>
             </div>
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/blog/articles">BLOG</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/blog/articles/">BLOG</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/commissions/list">COMMISSION</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/commissions/list/">COMMISSION</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/forum/threads">FORUM</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/forum/threads/">FORUM</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/wiki/articles">WIKI</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/wiki/articles/">WIKI</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/merchstore">MERCHSTORE</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/merchstore/items/">MERCHSTORE</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/profile">PROFILE</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/profile/">PROFILE</a>
                 </li>
             </ul>
             <div class="col-md-3 text-end">
+                <!-- two if statements because it crashes if im logged in as a user without a profile yet -->
                 {% if user.is_authenticated %}
                     {% if user.profile %}
                         <span class="me-3">Welcome, {{ user.profile.display_name }}!</span>
                         <form method="POST" action="{% url 'logout' %}" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                            <button type="submit" class="login-btn">Logout</button>
                         </form>
                     {% else %}
                         <span class="me-3">Welcome, {{ user.username }}!</span>
                         <form method="POST" action="{% url 'logout' %}" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                            <button type="submit" class="login-btn">Logout</button>
                         </form>
                     {% endif %}
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                    <a href="{% url 'login' %}" class="login-btn">Login</a>
                 {% endif %}
             </div>
         </header>
     </nav>
     
     <article>
+
     {% block content %}
     
     {% endblock %}
     </article>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="/blog/articles" class="nav-link px-2 text-body-secondary">Blog</a></li>
-        <li class="nav-item"><a href="/commissions/list" class="nav-link px-2 text-body-secondary">Commission</a></li>
-        <li class="nav-item"><a href="/forum/threads" class="nav-link px-2 text-body-secondary">Forum</a></li>
-        <li class="nav-item"><a href="/wiki/articles" class="nav-link px-2 text-body-secondary">Wiki</a></li>
-        <li class="nav-item"><a href="/merchstore" class="nav-link px-2 text-body-secondary">Merchstore</a></li>
+        <li class="nav-item"><a href="/blog/articles/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Blog</a></li>
+        <li class="nav-item"><a href="/commissions/list/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Commission</a></li>
+        <li class="nav-item"><a href="/forum/threads/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Forum</a></li>
+        <li class="nav-item"><a href="/wiki/articles/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Wiki</a></li>
+        <li class="nav-item"><a href="/merchstore/items/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Merchstore</a></li>
+        <li class="nav-item"><a href="/profile/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Profile</a></li>
         </ul>
-        <p class="text-center text-body-secondary">© CSCI Midterms Group 11 :))</p>
+        <p class="text-center">© CSCI Midterms Group 11 :))</p>
     </footer>
 </body>
 </html>
