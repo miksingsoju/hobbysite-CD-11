@@ -48,5 +48,6 @@
     {% if form.errors %}
         <p style="color:red;">Invalid username or password</p>
     {% endif %}
+    <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
 </div>
 {% endblock %}
