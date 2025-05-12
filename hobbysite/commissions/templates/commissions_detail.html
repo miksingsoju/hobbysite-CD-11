@@ -1,41 +1,68 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %} Commissions {% endblock %}
+{% block title %} Commission Detail {% endblock %}
 
 {% block content %}
-    <div class= 'd-flex'>
-        <!-- Mini Commissions List Sidebar -->
-        <!-- Adds a sidebar where you can click to switch between commission comments -->
-        <div class= 'd-flex flex-column flex-shrink-0 p-3 position-fixed start-0 vh-100 mt-6' style='background-color: aquamarine; width: 280px;'>
-            <!-- Basically the same thing as commissions_list -->
-            <p class= 'text-black font-weight: bold'>Commissions List:</p>
-            <ul class= 'nav nav-pills flex-column mb-auto'>
-                {% for commission in commissions %}
-                    <li class= 'nav-item'>
-                        <a href= '{{ commission.get_absolute_url }}' class='nav-link text-black' style='background-color: aquamarine;'>{{ commission.title }}</a>
-                    </li>
-                {% empty %}
-                    <p>No commissions yet.</p>
-                {% endfor %}
-            </ul>
-        </div>
+  <link rel="stylesheet" href="{% static 'commissionsstyle.css' %}">
 
-        <!-- Acts as a subheader stating the commission being commented on -->
-        <div class=' container d-flex flex-column justify-content-center align-items-center text-center'>
-            <h1 class=' fw-bold'>Commission Detail</h1>
-            <h3 class=' fw-bold'>{{ commission.title }}</h3>
-            <p>Created On: {{ commission.created_on }}</p>
-        <!-- Creates the comments, text fields and creation/update date -->
-            <h3 class=' fw-bold mt-4'>Comments</h3>
-            {% for comment in comments %}
-                <p>"{{ comment.entry }}"</p>
-                <p>  - Created: {{ comment.created_on }}, Updated: {{ comment.updated_on }}</p>
-            <!-- If comments is empty then there is no comments -->
-                {% empty %}
-                <p>No comments yet.</p>
-            {% endfor %}
-        </div>
-    </div>
+  <!-- Commission Details -->
+  <h1>Commission Details</h1>
+  <div>
+      <h4>{{ commission.title }} by {{ commission.author }} </h4>
+      <p class="item"> 
+        Created on {{ commission.created_on }} <br>
+        Updated on {{ commission.updated_on }} <br>
+        Description: {{ commission.description }} <br>
+        Status: {{ commission.status }} <br>
+      </p>
+  </div>
 
+  <!-- Job list -->
+  <h4>Job List</h4>
+  <div class="container">
+      <!-- Job Details -->
+    {% for item in job_data %}
+      <div class="box">
+        <p class="mini-header"> Role: {{ item.job.role }}</p><br>
+        <p class="item"> 
+          Manpower Required: {{ item.job.people_required }}<br>
+          Open Slots: {{ item.open_slots }}<br>
+        </p>
+
+        <!-- This determines the display button (its just if statements) -->
+        <!-- If user is not the author -->
+        {% if request.user.is_authenticated and request.user != commission.author %}
+          <!-- Checks if the Job is applied to -->
+          {% if item.already_applied %} 
+            <button type="submit" disabled>Applied</button>
+          {% else %}
+            <!-- If job is full then cannot apply -->
+            {% if item.is_full %}
+              <button disabled>Job Full</button>
+            {% else %}
+              <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="job_id" value="{{ item.job.id }}">
+              <button type="submit">Apply</button>
+              </form>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+        <!-- Job view to view and accept/reject applicants -->
+        {% if request.user == commission.author %}
+          <a href="{% url 'commissions:job' num=item.job.id %}"> <button type="button">View Applicants</button></a>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p class="item">No jobs yet.</p>
+    {% endfor %}
+  </div>
+
+
+  <!-- Commission edit -->
+  {% if request.user == commission.author %}
+    <a href="{% url 'commissions:edit' commission.pk %}"><button type="button">Edit Commission</button></a>
+  {% endif %}
+  <a href="{% url 'commissions:list' %}"><button type="button">Return to list</button></a>
+    
 {% endblock %}

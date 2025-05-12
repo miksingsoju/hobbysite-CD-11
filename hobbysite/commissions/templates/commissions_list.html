@@ -1,36 +1,60 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %} Commissions List {% endblock %}
 
 {% block content %}
-    <h2 class= 'text-center'>Commissions</h2>
-    <div class= 'd-flex flex-column flex-shrink-0 p-3'>
-        <!-- Adds an Image through css (for fun) -->
-        <div class= 'col-md-3 d-flex align-items-center justify-content-center vh-100 position-fixed end-0 top-0'>
-            <img src= "{% static 'commissions/LJ.jpg' %}" alt='Lehann.jpg' class='img-fluid' style='max-width: 250px;'>
+    <!-- For css -->
+    <link rel="stylesheet" href="{% static 'commissionsstyle.css' %}">
+    <h1>Commissions List</h1>
+
+    <!-- This is a for loop that gets each commission from the commission list and its details -->
+    {% if request.user.is_authenticated %}
+        <h4>Your Commissions</h4>
+        <div class="container">
+            {% for commission in user_commissions %}
+            <div class="box">
+                <p class="item"> <a class="mini-header" href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a> <br>
+                    Created by {{ commission.author }} on {{ commission.created_on }} <br>
+                    Status: {{ commission.status }}<br>
+                </p>
+            </div>
+            {% endfor %}
         </div>
         
-        <!-- Content -->
-        <div class= 'comtainer d-flex flex-column flex-column justify-content-center align-items-center text-center'>
-            <ul class= 'nav nav-pills flex-column mb-auto justify-content-center'>
-                <!-- This is a for loop that gets each commission from the commission list and its details -->
-                {% for commission in commissions %}
-                    <li class= 'nav-item'>
-                        <a href= '{{ commission.get_absolute_url }}' class='list-group-item list-group-item-action gap-3 py-3' style='background-color: transparent; text-align: center; font-weight: bold; font-size: 1.5rem'> 
-                            {{ commission.title }}</a>
-                        <p class= 'px-3'>
-                            Description: {{ commission.description }}, {{ commission.people_required }} people required<br>
-                            Created on: {{ commission.created_on }}<br>
-                            Updated on: {{ commission.updated_on }}
-                        </p>
-                    </li>
-                {% empty %}
-                    <p>No commissions yet.</p>
-                {% endfor %}
-            </ul>
-        </div>
+        
+        {% if applied_commissions %}
+            <h4>Applied Commissions</h4>
+            <div class="container">
+            {% for commission in applied_commissions %}
+                <div class="box">
+                    <p class="item"> <a class="mini-header" href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a> <br>
+                        Created by {{ commission.author }} on {{ commission.created_on }} <br>
+                        Status: {{ commission.status }}<br>
+                    </p>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
 
+        
+        <h4> Other Commissions</h4>
+    {% else %}
+        <h4> Commissions </h4>
+    {% endif %}
+
+    <div class="container">
+        {% for commission in commissions %}
+            <div class="box">
+                <p class="item"> <a class="mini-header"  href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a> <br>
+                    Created by {{ commission.author }} on {{ commission.created_on }} <br>
+                    Status: {{ commission.status }}<br>
+                </p>
+            </div>
+        {% empty %}
+            <p class="item"> No commissions yet.</p>
+        {% endfor %}
     </div>
-
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'commissions:add' %}"> <button type="button" >Create Commission</button></a>
+    {% endif %}
 {% endblock %}
