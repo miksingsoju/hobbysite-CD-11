@@ -14,7 +14,6 @@ class Migration(migrations.Migration):
             name='product',
             options={'ordering':['name']},
         ),
-
         migrations.RenameField(
             model_name='product',
             old_name='ImageURL',
