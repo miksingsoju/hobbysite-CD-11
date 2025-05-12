@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=50, unique=True) # Set unique to prevent duplicate Categories
@@ -14,6 +15,12 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True, # Allows me to migrate this without breaking my database or setting a default model
+        related_name="articles"
+    )
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,  # Set to NULL when the category is deleted
@@ -32,3 +39,28 @@ class Article(models.Model):
     
     def get_absolute_url(self): # Prevents the need for hard-coded
         return reverse('wiki:article_detail', args=[str(self.id)])
+    
+class Comment(models.Model):
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null = True,
+        related_name="comment"
+    )
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        related_name="comment"
+    )
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ["created_on"]
+        
+# For bonus points 
+class WikiImage(models.Model):
+    image = models.ImageField(upload_to='wiki_images')
+    description = models.CharField(max_length=255)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="article_image")

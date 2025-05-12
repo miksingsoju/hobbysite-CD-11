@@ -25,6 +25,12 @@
     color: #552583; /* Purple text */
 }
 
+.carousel-img {
+    width: 600px;        
+    height: 400px;       
+    object-fit: contain; 
+}
+
 /* Dropdown Styling */
 .dropdown-menu {
     background-color: #FDB927; /* Gold background */
@@ -39,4 +45,195 @@
 .dropdown-item:hover {
     background-color: #552583; /* Purple on hover */
     color: #FDB927; /* Gold text */
+}
+
+/* Lakers color scheme */
+:root {
+    --lakers-purple: #552583;
+    --lakers-gold: #FDB927;
+    --lakers-black: #000000;
+    --lakers-white: #ffffff;
+}
+
+/* Main Section */
+main {
+  background-color: #FFC72C; 
+  padding: 40px;
+  text-align: center;
+}
+
+
+body .lakers-container {
+    background-color: var(--lakers-white);
+}
+
+/* Article header - more specific selector */
+body .article-header {
+    background-color: var(--lakers-purple);
+    color: var(--lakers-gold);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.article-title {
+    color: var(--lakers-gold) !important; /* Force gold color */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.article-category {
+    color: var(--lakers-white) !important; /* White for category text */
+}
+
+.article-content {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+.article-content p {
+    border: 2px solid var(--lakers-gold, #FDB927);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    margin: 1rem auto;
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(85, 37, 131, 0.2);
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: #333;
+    text-align: left;
+}
+
+/* For better text readability */
+.article-content p strong {
+    color: var(--lakers-purple, #552583);
+    font-weight: 600;
+}
+
+/* Make all selectors more specific */
+body .article-title {
+    color: var(--lakers-gold);
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px var(--lakers-black);
+}
+
+body .article-category {
+    color: var(--lakers-white);
+    font-size: 1.1rem;
+}
+
+.header-nav {
+    margin-bottom: 2rem;
+}
+
+/* Remove generic button styles - keep only .nav-btn */
+.nav-btn {
+    background-color: transparent;
+        border: 1px solid orange;
+        color: orange;
+        padding: 3px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+    background-color: var(--lakers-purple);
+    color: var(--lakers-gold);
+    border-color: var(--lakers-gold);
+}
+
+li {
+    list-style: none;   
+}
+
+.lakers-btn-purple {
+    background-color: var(--lakers-purple, #552583);
+    color: var(--lakers-gold, #FDB927);
+    border: 2px solid var(--lakers-gold, #FDB927);
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.lakers-btn-purple:hover {
+    background-color: var(--lakers-gold, #FDB927);
+    color: var(--lakers-purple, #552583);
+    border-color: var(--lakers-purple, #552583);
+}
+
+/* Gold background with purple text button */
+.lakers-btn-gold {
+    background-color: var(--lakers-gold, #FDB927);
+    color: var(--lakers-purple, #552583);
+    border: 2px solid var(--lakers-purple, #552583);
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.lakers-btn-gold:hover {
+    background-color: var(--lakers-purple, #552583);
+    color: var(--lakers-gold, #FDB927);
+    border-color: var(--lakers-gold, #FDB927);
+}
+
+.user-articles-section {
+    background-color: rgba(253, 185, 39, 0.1); /* Light gold background */
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border: 4px solid white
+}
+
+.user-articles-section h3 {
+    color: var(--lakers-purple, #552583);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 4px solid var(--lakers-gold, #FDB927);
+}
+
+.user-articles-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-articles-section li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(85, 37, 131, 0.1);
+}
+
+.user-articles-section li:last-child {
+    border-bottom: none;
+}
+
+.user-articles-section a {
+    color: var(--lakers-purple, #552583);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: block;
+    padding: 0.5rem;
+}
+
+.user-articles-section a:hover {
+    background-color: rgba(85, 37, 131, 0.1);
+    border-radius: 4px;
 }
