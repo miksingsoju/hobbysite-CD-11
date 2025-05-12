@@ -24,7 +24,8 @@
             <div class="carousel-inner">
                 {% for image in images %}
                     <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                        <img src="{{ image.image.url }}" alt="{{ image.description }}">
+                        <img src="{{ image.image.url }}" alt="{{ image.description }}" class="d-block mx-auto"
+                        style="max-width: 100%; width: 600px; height: 400px; object-fit: contain;">
                     </div>
                 {% endfor %}
             </div>
@@ -66,12 +67,19 @@
 </div>
 <div>
     {% if previous %}
-        <a href="{{ previous.get_absolute_url }}">← Previous: {{ previous.title }}</a>
+        <a href="{{ previous.get_absolute_url }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+             Previous: {{ previous.title }}</a>
     {% endif %}
-
     {% if next_article %}
         <span style="margin-left: 20px;"></span>
-        <a href="{{ next_article.get_absolute_url }}"> Next: {{ next_article.title }} →</a>
+        <a href="{{ next_article.get_absolute_url }}"> Next: {{ next_article.title }} 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+            </svg>
+        </a>
     {% endif %}
 </div>
 {%endblock%}

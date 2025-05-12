@@ -25,6 +25,12 @@
     color: #552583; /* Purple text */
 }
 
+.carousel-img {
+    width: 600px;        
+    height: 400px;       
+    object-fit: contain; 
+}
+
 /* Dropdown Styling */
 .dropdown-menu {
     background-color: #FDB927; /* Gold background */
@@ -39,4 +45,142 @@
 .dropdown-item:hover {
     background-color: #552583; /* Purple on hover */
     color: #FDB927; /* Gold text */
+}
+
+.title_bar {
+    text-align: center;
+    letter-spacing: 1.5px;
+    color: black;
+    border: 2px solid black;
+    padding: 8px;
+    margin-bottom: 5vh;
+        
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5vw;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+/* Top Navigation Bar */
+header {
+  background-color: #4B0082; /* deep purple */
+  color: orange;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+header h1 {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+article {
+    background-color: #FFC72C; 
+    padding: 40px;
+    text-align: center;
+}
+
+/* Main Section  btn btn-outline-primary */
+main {
+  background-color: #FFC72C; 
+  padding: 40px;
+  text-align: center;
+}
+
+body {
+  background-color: #FFC72C; 
+  padding: 40px;
+  text-align: center;
+}
+
+/* Welcome Title */
+main h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: black;
+}
+
+/* Hero section with image and text */
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+.hero-section img {
+  max-width: 100%;
+  height: auto;
+  width: 400px;
+}
+
+.hero-text {
+  max-width: 400px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  background-color: #f9c846;
+  padding: 10px;
+}
+
+nav header {
+    background-color: #4B0082 !important;  /* Lakers purple */
+    color: orange !important;
+}
+
+nav header a,
+nav header .nav-link {
+    color: orange !important;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+nav header .nav-link:hover {
+    color: white !important;
+    text-decoration: underline;
+}
+
+/* Login/Logout buttons */
+.login-btn {
+    background-color: transparent;
+    border: 1px solid orange;
+    color: orange;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: orange;
+    color: #4B0082;
+}
+
+/* Welcome text spacing */
+.me-3 {
+    color: orange;
+    font-weight: bold;
+}
+
+/* Optional: shrink spacing between nav items */
+nav .nav-links {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 }
