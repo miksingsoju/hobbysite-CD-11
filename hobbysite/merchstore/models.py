@@ -42,6 +42,13 @@ class Product (models.Model):
         default=Status.AVAILABLE,
     )
 
+    def save(self, *args, **kwargs):
+        if self.stock == 0:
+            self.status = self.Status.OUT_OF_STOCK
+        elif self.status == self.Status.OUT_OF_STOCK and self.stock > 0:
+            self.status = self.Status.AVAILABLE
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
