@@ -85,7 +85,30 @@
         margin-bottom: 5vh;
         
     }
+
+    .merch_nav {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4vw;
+        justify-content: center;
+        text-align: center;
+    }
 </style>
+
+<h1>MERCHSTORE</h1>
+
+<ul class="merch_nav">
+    <li>
+        <a href="{% url 'merchstore:product_list' %}">Home</a>
+    </li>
+    <li>
+        <a href="{% url 'merchstore:transactions' %}">My Shop</a> 
+    </li>
+    <li>
+        <a href="{%url 'merchstore:cart' %}">My Orders</a>
+    </li>
+</ul>
 
 <div class="heading"> Update Product: {{ form.instance.name }}</div>
 
