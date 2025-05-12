@@ -22,7 +22,14 @@
     <!-- Thread metadata header -->
 
     <header class="mt-2">
-        <p class="p-1 mt-2 text-muted text-start">
+        {% if user.is_authenticated and user == thread.author %}
+        <div class="text-start">
+            <a href="{% url 'forum:thread_update' thread.id %}" class="btn card shadow-sm col-md-1 text-primary mt-0">
+            Edit 
+            </a>
+        </div>
+        {% endif %}
+        <p class="col-md-10 p-1 mt-2 text-muted text-start">
             <strong>Category:</strong> 
             {% if thread.category %}
                 {{ thread.category.name }}
@@ -38,12 +45,12 @@
      
     <div class="d-flex col column-gap-2">
         {% if thread.image %}
-        <div class="col-md-4 card shadow my-3 px-3 py-3 pb-1 text-start">
+        <div class="col-md-6 card shadow my-3 px-3 py-3 pb-1 text-start">
             <p>
             {{ thread.entry }} 
             </p>
         </div>
-        <div class="col-md-8 card shadow my-3 px-3 py-3 pb-1">
+        <div class="col-md-6 card shadow my-3 px-3 py-3 pb-1">
             <img src="{{ thread.image.url }}">
         </div>
         {% else %}

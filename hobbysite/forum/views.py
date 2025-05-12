@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import ThreadCategory, Thread, Comment
 from .forms import ThreadForm, CommentForm
@@ -77,3 +77,30 @@ def thread_create(request):
     }
 
     return render(request, 'thread_create.html', ctx)
+
+@login_required
+def thread_update(request, thread_id):
+    thread = Thread.objects.filter(id=thread_id).first()
+    form = ThreadForm()
+
+    if(request.method == "POST"):
+        form = ThreadForm(request.POST, request.FILES)
+        if form.is_valid():
+            tr = thread
+            tr.updatedOn = timezone.now()
+
+            tr.title = form.cleaned_data.get('title')
+            tr.entry = form.cleaned_data.get('entry')
+            tr.category = form.cleaned_data.get('category')
+            tr.image = form.cleaned_data.get('image')
+            tr.save()
+
+            response = redirect(f"/forum/thread/{thread_id}") 
+            return response # redirect to associated recipe's detailed view.
+
+    ctx = { 
+        "thread" : thread,
+        "form" : form,
+    }
+
+    return render(request, 'thread_edit.html', ctx)

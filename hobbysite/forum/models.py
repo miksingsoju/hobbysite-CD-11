@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 # Model inheritance through abstract class; simplifies code 
@@ -31,6 +32,9 @@ class ThreadCategory(models.Model):
 class Thread(CommonInfo):
     class Meta:
         ordering = ['-created_on']
+
+    def get_absolute_url(self):
+        return reverse("thread_detail", args=[self.id])
 
     category = models.ForeignKey(
         ThreadCategory, 
