@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Product{% endblock %}
+
+{% block content %}
+<style>
+    form {
+        margin: 5vh auto;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 3vh 1vw 5vh;
+    }
+
+    label {
+        font-size: 1.2em;
+        margin-bottom: 0.5vh;
+    }
+
+    input, select, textarea {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 1em;
+        padding: 10px;
+        border: 1px solid black;
+        width: 100%;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5vh;
+    }
+
+    #price-stock {
+        display: flex;
+        gap: 5vw;
+    }
+
+    #price-stock .form-group {
+        flex: 1;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        border: 1px solid black;
+        font-size: 1.1em;
+        font-family: 'Times New Roman', Times, serif;
+        background: white;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        border-width: 2px;
+    }
+</style>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="{{ form.name.id_for_label }}">Product Name</label>
+        {{ form.name }}
+    </div>  
+
+    <div class="form-group">
+        <label for="{{ form.productType.id_for_label }}">Product Type</label>
+        {{ form.productType }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.profile_image.id_for_label }}">Product Profile Photo</label>
+        {{ form.profile_image }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.description.id_for_label }}">Product Description</label>
+        {{ form.description }}
+    </div>
+
+    <div id="price-stock">
+        <div class="form-group">
+            <label for="{{ form.price.id_for_label }}">Price</label>
+            {{ form.price }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.stock.id_for_label }}">Stock</label>
+            {{ form.stock }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.status.id_for_label }}">Status</label>
+        {{ form.status }}
+    </div>
+
+    <button type="submit" class="submit-btn">Create Product</button>
+</form>
+{% endblock %}

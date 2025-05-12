@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Update Product: {{ form.instance.name }}{% endblock %}
+
+{% block content %}
+<style>
+    form {
+        margin: 5vh auto;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 3vh 1vw 5vh;
+    }
+
+    label {
+        font-size: 1.2em;
+        margin-bottom: 0.5vh;
+    }
+
+    input, select, textarea {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 1em;
+        padding: 10px;
+        border: 1px solid black;
+        width: 100%;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5vh;
+    }
+
+    #price-stock {
+        display: flex;
+        gap: 5vw;
+    }
+
+    #price-stock .form-group {
+        flex: 1;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        border: 1px solid black;
+        font-size: 1.1em;
+        font-family: 'Times New Roman', Times, serif;
+        background: white;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        border-width: 2px;
+    }
+
+    .gallery-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 5vh;
+        padding-bottom: 5vh;
+        justify-content: flex-start;
+    }
+
+    .gallery-item {
+        width: 120px;
+        text-align: center;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+    }
+
+    .heading {
+        text-align: center;
+        letter-spacing: 1.5px;
+        color: white;
+        background-color: black;
+        border: 2px solid black;
+        padding: 8px;
+        margin-bottom: 5vh;
+        
+    }
+
+    .merch_nav {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4vw;
+        justify-content: center;
+        text-align: center;
+    }
+</style>
+
+<h1>MERCHSTORE</h1>
+
+<ul class="merch_nav">
+    <li>
+        <a href="{% url 'merchstore:product_list' %}">Home</a>
+    </li>
+    <li>
+        <a href="{% url 'merchstore:transactions' %}">My Shop</a> 
+    </li>
+    <li>
+        <a href="{%url 'merchstore:cart' %}">My Orders</a>
+    </li>
+</ul>
+
+<div class="heading"> Update Product: {{ form.instance.name }}</div>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="{{ form.name.id_for_label }}">Product Name</label>
+        {{ form.name }}
+    </div>  
+
+    <div class="form-group">
+        <label for="{{ form.productType.id_for_label }}">Product Type</label>
+        {{ form.productType }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.profile_image.id_for_label }}">Product Profile Photo</label>
+        {{ form.profile_image }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.description.id_for_label }}">Product Description</label>
+        {{ form.description }}
+    </div>
+
+    <div id="price-stock">
+        <div class="form-group">
+            <label for="{{ form.price.id_for_label }}">Price</label>
+            {{ form.price }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.stock.id_for_label }}">Stock</label>
+            {{ form.stock }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.status.id_for_label }}">Status</label>
+        {{ form.status }}
+    </div>
+
+    <button type="submit" class="submit-btn">Update Product</button>
+</form>
+
+<div class="heading">Upload a New Gallery Image</div>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ image_form.as_p }}
+    <button type="submit" class="submit-btn">Upload Image</button>
+</form>
+
+<div class="heading">Gallery Images</div>
+<div class="gallery-wrapper">
+    {% for img in existing_images %}
+    <div class="gallery-item">
+        <img src="{{ img.image.url }}" alt="{{ img.description }}">
+        <p>{{ img.description }}</p>
+    </div>
+    {% empty %}
+    <p>No gallery images yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

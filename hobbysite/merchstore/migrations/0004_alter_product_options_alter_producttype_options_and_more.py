@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='product',
-            options={'ordering': ['name']},
+            options={'ordering':['name']},
         ),
         migrations.RenameField(
             model_name='product',
