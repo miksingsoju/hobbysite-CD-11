@@ -137,6 +137,9 @@ def product_update(request, num):
 
 def cart(request):
      # Get all transactions of the current user (excluding "on cart" or filter as needed)
+    if not request.user.is_authenticated:
+        return redirect('login')  # or handle unauthorized access
+
     transactions = Transaction.objects.filter(buyer=request.user.profile)
 
     grouped = defaultdict(list)
@@ -149,6 +152,7 @@ def cart(request):
         'grouped_transactions': grouped.items(),
     }
     return render(request, 'cart.html', ctx)
+
 def transactions(request):
     if not request.user.is_authenticated:
         return redirect('login')  # or handle unauthorized access
