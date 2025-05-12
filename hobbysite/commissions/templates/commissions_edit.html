@@ -6,12 +6,14 @@
 
     <form method="post">
         {% csrf_token %}
-
+        <h4>Edit Commission</h4>
+        <!-- Return Button. The form.as.p shows the commission title description and status -->
         <button type="submit">Save Changes</button> <a href="{% url 'commissions:detail' commission.pk %}"><button type="button">Return</button></a>
         {{ form.as_p }}
 
-        <h3>Jobs</h3>
-        {{ formset.management_form }}  <!-- Important to include the management form -->
+        <!-- For job editing and adding -->
+        <h4>Edit Jobs</h4>
+        {{ formset.management_form }}
         {% for job_form in formset %}
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                 {{ job_form.as_p }} 

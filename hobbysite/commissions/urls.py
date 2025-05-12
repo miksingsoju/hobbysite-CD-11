@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import commission_list, commission_detail, commission_add, commission_edit, job_apply, job_detail
+from .views import commission_list, commission_detail, commission_add, commission_edit, job_detail
 
 # configured urls to be used
 urlpatterns = [

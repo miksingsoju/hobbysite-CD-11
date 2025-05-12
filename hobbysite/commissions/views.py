@@ -9,19 +9,21 @@ from django.forms import modelformset_factory
 # this will be called when the url is commissions/list and will take the template from the commissions_list.html file
 def commission_list(request):
     if request.user.is_authenticated:
-        commissions = Commission.objects.annotate(custom_order=models.Case(
-            models.When(author=request.user , then=0),
-            models.When(job__applications__applicant=request.user.profile , then=1),
-            models.When(status='Open', then=2),
-            models.When(status='Full', then=3),
-            models.When(status='Completed', then=4),
-            models.When(status='Discontinued', then=5),
+        user_commissions = Commission.objects.filter(author=request.user).order_by('-created_on')
+        applied_commissions = Commission.objects.filter(job__applications__applicant=request.user.profile).exclude(author=request.user).distinct().order_by('-created_on')
+        
+        other_commissions = Commission.objects.exclude(author=request.user).exclude(job__applications__applicant=request.user.profile).annotate(custom_order=models.Case(
+            models.When(status='Open', then=0),
+            models.When(status='Full', then=1),
+            models.When(status='Completed', then=2),
+            models.When(status='Discontinued', then=3),
             default=4,
             output_field=models.IntegerField()
         )).order_by('custom_order', '-created_on').distinct()
         
     else:
-        commissions = Commission.objects.annotate(custom_order=models.Case(
+        user_commissions = applied_commissions= None
+        other_commissions = Commission.objects.annotate(custom_order=models.Case(
             models.When(status='Open', then=0),
             models.When(status='Full', then=1),
             models.When(status='Completed', then=2),
@@ -30,7 +32,7 @@ def commission_list(request):
             output_field=models.IntegerField()
         )).order_by('custom_order', '-created_on')
 
-    context = { 'commissions': commissions,}
+    context = { 'user_commissions': user_commissions, 'applied_commissions' : applied_commissions, 'commissions' : other_commissions}
     return render(request, 'commissions_list.html', context)
 
 # this will be called when the url is commissions/details/number and will take the template from the commissions_details.html file
@@ -113,17 +115,6 @@ def commission_edit(request, num=1):
         formset = JobFormSet(queryset=commission.job.all())
 
     return render(request, 'commissions_edit.html', {'form': form, 'formset': formset, 'commission': commission})
-
-@login_required
-def job_apply(request, num=1):
-    job = get_object_or_404(Job, pk=num)
-    profile = request.user.profile
-    # Checks if already applied
-    # If user is not applied to the job,
-    if not JobApplication.objects.filter(job=job, applicant=profile).exists():
-        JobApplication.objects.create(job=job, applicant=profile)
-        job.save()
-    return redirect('commissions:detail', num=job.commission.pk)
 
 @login_required
 def job_detail(request, num=1):

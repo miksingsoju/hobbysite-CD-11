@@ -7,6 +7,37 @@
     <h2 class= 'text-center'>Commissions</h2>
     
     <!-- This is a for loop that gets each commission from the commission list and its details -->
+    {% if request.user.is_authenticated %}
+        <h4>Your Commissions</h4>
+        {% for commission in user_commissions %}
+            <li>
+                <a href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a>
+                <p>
+                    Created by {{ commission.author }} on {{ commission.created_on }} <br>
+                    Status: {{ commission.status }}<br>
+                </p>
+            </li>
+        {% endfor %}
+        <a href="{% url 'commissions:add' %}"> <button type="button" >Create Commission</button></a>
+        
+        {% if applied_commissions %}
+            <h4>Applied Commissions</h4>
+            {% for commission in applied_commissions %}
+                <li>
+                    <a href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a>
+                    <p>
+                        Created by {{ commission.author }} on {{ commission.created_on }} <br>
+                        Status: {{ commission.status }}<br>
+                    </p>
+                </li>
+            {% endfor %}
+        {% endif %}
+        <h4>Other Commissions</h4>
+    {% else %}
+        <h4> Commissions </h4>
+    {% endif %}
+
+    
     {% for commission in commissions %}
         <li>
             <a href= '{{ commission.get_absolute_url }}'> {{ commission.title }}</a>
@@ -18,10 +49,5 @@
     {% empty %}
         <p>No commissions yet.</p>
     {% endfor %}
-
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'commissions:add' %}"> <button type="button" >Create Commission</button></a>
-    {% endif %}
-</ul>
 
 {% endblock %}

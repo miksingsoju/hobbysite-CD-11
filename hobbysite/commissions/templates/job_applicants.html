@@ -9,7 +9,7 @@
   <ul>
     {% for app in applicants %}
       <li>
-        <p> Applicant: <strong>{{ app.applicant.user.username }}</strong> </p>
+        <strong>Applicant: {{ app.applicant.user.username }}</strong>
         <form method="post">
           {% csrf_token %}
           <input type="hidden" name="application_id" value="{{ app.id }}">
@@ -18,9 +18,10 @@
             <option value="Pending" {% if app.status == "Pending" %}selected{% endif %}>Pending</option>
             <option value="Accepted" {% if app.status == "Accepted" %}selected{% endif %}>Accepted</option>
             <option value="Rejected" {% if app.status == "Rejected" %}selected{% endif %}>Rejected</option>
-          </select>
-          <button type="submit">Update</button>
+          </select> <br>
+          <button type="submit">Update Applicant Status</button>
         </form>
+        <p>----------------------------------</p>
       </li>
     {% endfor %}
   </ul>
