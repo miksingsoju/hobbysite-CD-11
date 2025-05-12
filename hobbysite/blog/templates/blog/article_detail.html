@@ -4,24 +4,23 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+
 <div class="container my-5">
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>{{ article.title }}</h1>
     {% if user.is_authenticated and article.author == user.profile %}
-      <a href="{% url 'blog:article_edit' article.id %}" class="btn btn-outline-secondary">
-        Edit
-      </a>
+      <a href="{% url 'blog:article_edit' article.id %}" class="btn btn-outline-secondary">Edit</a>
     {% endif %}
   </div>
 
   {% if article.header_image %}
-    <img 
-      src="{{ article.header_image.url }}" 
-      class="img-fluid rounded mb-4" 
-      alt="{{ article.title }}">
+    <img src="{{ article.header_image.url }}"
+         class="img-fluid rounded mb-4"
+         alt="{{ article.title }}">
   {% endif %}
-  
+
   <p class="text-muted">
     {% if article.author %}
       <strong>By</strong> {{ article.author.display_name }} •
@@ -82,9 +81,7 @@
           <div class="text-danger small">{{ error }}</div>
         {% endfor %}
       </div>
-      <button type="submit" class="btn btn-primary" name="comment_submit">
-        Post Comment
-      </button>
+      <button type="submit" class="btn btn-primary" name="comment_submit">Post Comment</button>
     </form>
   {% else %}
     <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>

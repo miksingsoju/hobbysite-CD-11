@@ -4,6 +4,8 @@
 {% block title %}Articles{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+
 <div class="container my-5">
 
   {% if user.is_authenticated %}
@@ -54,7 +56,7 @@
               <p class="card-text">
                 <small class="text-muted">
                   {% if article.author %}
-                    by {{ article.author.display_name }} · 
+                    by {{ article.author.display_name }} ·
                   {% endif %}
                   {{ article.created_on|date:"M j, Y" }}
                 </small>
