@@ -5,19 +5,32 @@
 
 {% block content %}
 <style>
-    .heading {
+    .title_bar {
         text-align: center;
         letter-spacing: 1.5px;
         color: black;
         border: 2px solid black;
         padding: 8px;
         margin-bottom: 5vh;
-        
     }
-    ul {
+    
+    ul.merch{
         display: flex;
         flex-wrap: wrap;
         gap: 5vw;
+        text-align: center;
+
+                background-color: #FDB927;
+
+    }
+
+    .merch_nav {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4vw;
+        justify-content: center;
+        text-align: center;
     }
 
     .productIMG {
@@ -31,7 +44,8 @@
         flex-wrap: wrap;
         max-width: 25%;
         row-gap: 10px;
-        align-items: center;
+        align-items:center;
+        text-align: left;
     }
 
     .product_price {
@@ -54,6 +68,11 @@
         margin-bottom: 5vh;
     }
 
+    .create_product:hover{
+        background-color: black;
+        color: white;
+    }
+
     .add_cart{
         margin-top: 1vh;
         border: 0.1vw solid black;
@@ -62,13 +81,16 @@
         letter-spacing: 1px;
     }
 
-    .add_cart:hover, .create_product:hover {
-        background-color: black;
-        color: white;
-    }
+     a{
+        color: black;
+        text-decoration: none;
+     }
+
 </style>
 
-<ul>
+<h1>MERCHSTORE</h1>
+
+<ul class="merch_nav">
     <li>
         <a href="{% url 'merchstore:product_list' %}">Home</a>
     </li>
@@ -81,12 +103,12 @@
 </ul>
 
 {%if user.is_authenticated %}
-<p class="heading"> MY PRODUCTS</p>
+<p class="title_bar"> MY PRODUCTS</p>
 <a href="{% url 'merchstore:product_create'%}"><div class="create_product"> Create Product</div></a>
 
 
 {% for productType in productTypes %}
-<ul>
+<ul class="merch">
     {% for product in user_products %}
     {% if productType == product.productType%}
 
@@ -101,17 +123,16 @@
 {% endfor %}
 {% endif %}
 
-<p class="heading"> ALL PRODUCTS</p>
+<p class="title_bar"> ALL PRODUCTS</p>
 
 {% for productType in productTypes%}
-        <ul>
+        <ul class="merch">
             {% for product in products %}
             {% if productType == product.productType%}
             <li>
                 <img src="{{product.profile_image.url}}" alt="{{product.name}}" class="productIMG">
                 <span class="product_name"><a href="{{product.get_absolute_url}}">{{product.name}}</a></span>
                 <span class="product_price">₱{{product.price}} PHP</span>
-                <div class="add_cart"> Add to cart</div>
             </li>  
             {% endif %}
             {% endfor %}
