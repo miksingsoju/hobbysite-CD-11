@@ -5,10 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.homepage, name="homepage"),
     path('articles/', views.articles, name ="article_index"),
-    path('article/<int:num>/', views.article_detail, name="article_detail"),
-    path('article/add/', views.add_article, name="add_article"),
-    path('article/<int:num>/edit/', views.edit_article, name="edit_article"),
-    path('article/<int:num>/add_image/', views.add_image, name="add_image")
+    path('article/<int:num>/', views.article_detail, name="article_detail")
 ]
 
 app_name = "wiki"
