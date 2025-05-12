@@ -27,7 +27,7 @@ urlpatterns = [
     path('forum/',include('forum.urls',namespace="forum")),
     path('commissions/',include('commissions.urls',namespace="commissions")),
     path('profile/', include('user_management.urls', namespace="user_management")),
-    path('accounts', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('user/', include('user_management.urls')),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
