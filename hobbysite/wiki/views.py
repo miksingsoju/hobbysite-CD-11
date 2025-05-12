@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Article, ArticleCategory, Comment
-from .forms import CommentForm
+from .forms import ArticleForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 # For debugging only
@@ -77,7 +77,17 @@ def article_detail(request, num=1):
     return render(request, "article_detail.html", context)
 
 def add_article(request):
-    return HttpResponse("Hehe still under construction")
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user.profile  # set author manually
+            article.save()
+            return redirect(article.get_absolute_url())
+    else:
+        form = ArticleForm()
+    
+    return render(request, 'wiki/article_add.html', {'form': form})
 
 def edit_article(request, num=1):
     return HttpResponse("Hehe still under construction")

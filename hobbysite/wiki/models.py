@@ -52,7 +52,7 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name="comment"
     )
-    entry = models.TextField
+    entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     

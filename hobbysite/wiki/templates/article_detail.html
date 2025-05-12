@@ -1,22 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Work in Progress {%endblock%}
+{% block title %} {{ article.title}} {%endblock%}
 
 {% block content %} 
 <link rel="stylesheet" href="{% static 'wiki/css/lakers.css' %}">
+<div>
+    <a href="{% url 'wiki:article_index' %}">Back</a>
+    <a href="{% url 'wiki:edit_article' article.id %}">Edit Article</a>
+</div>
 <h2>{{ article.title}}</h2>
 <div>Category: <strong>{{article.category}}</strong></div>
 <p style="border: 1px solid black; width: 70%; margin: 0 auto">
 {{article.entry}}
 </p>
 <div>
-    {% if previous_article %}
-        <a href="{{ previous_article.get_absolute_url }}">← {{ previous_article.title }}</a>
+    {% if user.is_authenticated %}
+    <p>Add a comment?</p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post Comment</button>
+        </form>
+    {% endif %}
+    <div style="border-top: 1px solid #ccc; padding: 10px 0;"></div>
+    <h4>Comments</h4>
+    {% if comments %}
+        {% for comment in comments %}
+            <strong>{{ comment.author }}</strong> • {{ comment.created_on|date:"M d, Y H:i" }}<br>
+            {{ comment.entry }}
+        {% endfor %}
+    {% else %}
+        <p> No comments </p>
+    {% endif %}
+    </div>
+</div>
+<div>
+    {% if previous %}
+        <a href="{{ previous.get_absolute_url }}">← Previous: {{ previous.title }}</a>
     {% endif %}
 
     {% if next_article %}
         <span style="margin-left: 20px;"></span>
-        <a href="{{ next_article.get_absolute_url }}">{{ next_article.title }} →</a>
+        <a href="{{ next_article.get_absolute_url }}"> Next: {{ next_article.title }} →</a>
     {% endif %}
 </div>
 {%endblock%}
