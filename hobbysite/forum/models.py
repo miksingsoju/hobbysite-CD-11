@@ -33,9 +33,6 @@ class Thread(CommonInfo):
     class Meta:
         ordering = ['-created_on']
 
-    def get_absolute_url(self):
-        return reverse("thread_detail", args=[self.id])
-
     category = models.ForeignKey(
         ThreadCategory, 
         on_delete=models.SET_NULL, 
