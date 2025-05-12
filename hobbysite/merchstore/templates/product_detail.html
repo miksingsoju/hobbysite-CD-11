@@ -18,6 +18,7 @@
         display: block;
         margin-inline: 10vw;
         min-width: 45%;
+        text-align: left;
     }
 
     #price {
@@ -101,8 +102,34 @@
     margin-bottom: 10px;
 }
 
+.merch_nav {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4vw;
+        justify-content: center;
+        text-align: center;
+    }
+
+    p {
+        text-align: left;
+    }
 
 </style>
+<h1>MERCHSTORE</h1>
+
+<ul class="merch_nav">
+    <li>
+        <a href="{% url 'merchstore:product_list' %}">Home</a>
+    </li>
+    <li>
+        <a href="{% url 'merchstore:transactions' %}">My Shop</a> 
+    </li>
+    <li>
+        <a href="{%url 'merchstore:cart' %}">My Orders</a>
+    </li>
+</ul>
+
 <div id="main_product">
     <img src="{{ product.profile_image.url }}" alt="{{ product.name }}" id="main_image">
 
@@ -110,6 +137,8 @@
         <h1>{{ product.name }}</h1>
         <p id="price">₱ {{ product.price }} PHP</p>
         <p>Stock: {{ product.stock }}</p>
+        <p>{{product.status}}</p>
+
 
         {% if user == product.owner.user %}
             <a href="{% url 'merchstore:product_update' num=product.id %}">
@@ -127,7 +156,7 @@
                     <button type="button" class="quantity-btn" onclick="changeQuantity(1)">+</button>
                 </div>
 
-                {% if product.stock > 0 %}
+                {% if product.stock > 0 or product.status != 'Out of stock'%}
                     <button type="submit" class="product_button">Buy it Now</button>
                 {% else %}
                     <button type="submit" class="product_button" disabled style="background-color: grey; cursor: not-allowed;">
