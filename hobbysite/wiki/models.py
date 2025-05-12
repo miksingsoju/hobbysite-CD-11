@@ -19,7 +19,7 @@ class Article(models.Model):
         Profile,
         on_delete=models.SET_NULL,
         null=True, # Allows me to migrate this without breaking my database or setting a default model
-        related_name="articles"
+        related_name="wiki_articles"
     )
     category = models.ForeignKey(
         ArticleCategory,
