@@ -39,6 +39,7 @@ def article_detail(request, num=1):
     article = Article.objects.get(pk=num)
     related_articles = list(Article.objects.filter(category=article.category).order_by("created_on")) # allows me to traverse them in order
     comments = Comment.objects.filter(article=article).order_by('-created_on')
+    images = article.article_image.all()
     
     # Handle logic for comments
     form = None
@@ -71,7 +72,8 @@ def article_detail(request, num=1):
         "comments": comments,
         "form": form,
         "previous": previous,
-        "next_article": next_article
+        "next_article": next_article,
+        "images": images
     }
     
     return render(request, "wiki/article_detail.html", context)
