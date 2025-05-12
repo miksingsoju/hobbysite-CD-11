@@ -53,6 +53,8 @@
           <a href="{% url 'commissions:job' num=item.job.id %}"> <button type="button">View Applicants</button></a>
         {% endif %}
       </div>
+    {% empty %}
+      <p class="item">No jobs yet.</p>
     {% endfor %}
   </div>
 
