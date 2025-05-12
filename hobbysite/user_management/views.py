@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -21,7 +22,6 @@ def update_profile(request):
             return redirect('homepage')
     else:
         form = ProfileForm(instance=profile)
-        
     return render(request, "update_profile.html", {'form': form})
 
 def register(request):
