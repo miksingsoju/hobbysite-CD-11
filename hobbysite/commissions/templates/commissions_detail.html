@@ -1,64 +1,66 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %} Commission Detail {% endblock %}
 
 {% block content %}
-    <!-- Commission Details -->
-    <div>
-        <h1 class=' fw-bold'>Commission Details</h1>
-        <h3 class=' fw-bold'>{{ commission.title }}</h3>
-        <p>By {{ commission.author }} created on: {{ commission.created_on }}</p>
+  <link rel="stylesheet" href="{% static 'commissionsstyle.css' %}">
 
-        <p>Description {{ commission.description }}</p>
-        <p>Status: {{ commission.status }}</p>
-        <p>Updated {{ commission.updated_on }}</p>
-    </div>
+  <!-- Commission Details -->
+  <h1>Commission Details</h1>
+  <div>
+      <h4>{{ commission.title }} by {{ commission.author }} </h4>
+      <p class="item"> 
+        Created on {{ commission.created_on }} <br>
+        Updated on {{ commission.updated_on }} <br>
+        Description: {{ commission.description }} <br>
+        Status: {{ commission.status }} <br>
+      </p>
+  </div>
 
-    <!-- Job list -->
-    <div>
-        <h3>Job List</h3>
-        <ul>
-            <!-- Job Details -->
-          {% for item in job_data %}
-            <li>
-              <p> Role: {{ item.job.role }}<br>
-                Required: {{ item.job.people_required }}<br>
-                Accepted: {{ item.accepted_count }}<br>
-                Open Slots: {{ item.open_slots }}<br>
-              </p>
+  <!-- Job list -->
+  <h4>Job List</h4>
+  <div class="container">
+      <!-- Job Details -->
+    {% for item in job_data %}
+      <div class="box">
+        <p class="mini-header"> Role: {{ item.job.role }}</p><br>
+        <p class="item"> 
+          Manpower Required: {{ item.job.people_required }}<br>
+          Open Slots: {{ item.open_slots }}<br>
+        </p>
 
-              <!-- Buttons -->
-              <!-- If user is not the author -->
-              {% if request.user.is_authenticated and request.user != commission.author %}
-                <!-- If job is full then cannot apply -->
-                {% if item.is_full %}
-                    <button disabled>Job Full</button>
-                {% else %}
-                  <!-- If the user already applied to that job-->
-                  {% if item.already_applied %}
-                    <button type="submit" disabled>Applied</button>
-                  {% else %}
-                    <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="job_id" value="{{ item.job.id }}">
-                    <button type="submit">Apply</button>
-                    </form>
-                  {% endif %}
-                {% endif %}
-              {% endif %}
-              <!-- Job view to view and accept/reject applicants -->
-              {% if request.user == commission.author %}
-                <a href="{% url 'commissions:job' num=item.job.id %}"> <button type="button">View Applicants</button></a>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-    </div>
+        <!-- This determines the display button (its just if statements) -->
+        <!-- If user is not the author -->
+        {% if request.user.is_authenticated and request.user != commission.author %}
+          <!-- Checks if the Job is applied to -->
+          {% if item.already_applied %} 
+            <button type="submit" disabled>Applied</button>
+          {% else %}
+            <!-- If job is full then cannot apply -->
+            {% if item.is_full %}
+              <button disabled>Job Full</button>
+            {% else %}
+              <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="job_id" value="{{ item.job.id }}">
+              <button type="submit">Apply</button>
+              </form>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+        <!-- Job view to view and accept/reject applicants -->
+        {% if request.user == commission.author %}
+          <a href="{% url 'commissions:job' num=item.job.id %}"> <button type="button">View Applicants</button></a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
 
-    <!-- Commission edit -->
-    {% if request.user == commission.author %}
-        <a href="{% url 'commissions:edit' commission.pk %}"><button type="button">Edit Commission</button></a>
-    {% endif %}
+
+  <!-- Commission edit -->
+  {% if request.user == commission.author %}
+    <a href="{% url 'commissions:edit' commission.pk %}"><button type="button">Edit Commission</button></a>
+  {% endif %}
+  <a href="{% url 'commissions:list' %}"><button type="button">Return to list</button></a>
     
 {% endblock %}

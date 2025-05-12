@@ -52,7 +52,6 @@ def commission_detail(request, num = 1):
             already_applied = job.applications.filter(applicant=profile).exists()
         job_data.append({
             'job': job,
-            'accepted_count': accepted_count,
             'open_slots': job.people_required - accepted_count,
             'is_full': is_full,
             'already_applied': already_applied,

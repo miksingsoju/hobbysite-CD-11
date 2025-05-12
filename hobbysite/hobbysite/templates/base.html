@@ -23,6 +23,9 @@
             margin: 20px;
             background-color: white;
             text-align: center;
+            background-color: #FFC72C; 
+            padding: 40px;
+            text-align: center;
         }
 
         ul {
@@ -30,6 +33,47 @@
         }
         nav ul{
             display: flex;
+        }
+
+        header {
+        background-color: #4B0082; /* deep purple */
+        color: orange;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+
+        nav header {
+    background-color: #4B0082 !important;  /* Lakers purple */
+    color: orange !important;
+    }
+
+    nav header a,
+    nav header .nav-links {
+        color: orange !important;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    nav header .nav-link:hover {
+        color: white !important;
+        text-decoration: underline;
+    }
+
+    /* Login/Logout buttons */
+    .login-btn {
+        background-color: transparent;
+        border: 1px solid orange;
+        color: orange;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .login-btn:hover {
+        background-color: orange;
+        color: #4B0082;
+    }
         }
     </style>
 </head>
@@ -43,47 +87,49 @@
             </div>
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/blog/articles">BLOG</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/blog/articles/">BLOG</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/commissions/list">COMMISSION</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/commissions/list/">COMMISSION</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/forum/threads">FORUM</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/forum/threads/">FORUM</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/wiki/articles">WIKI</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/wiki/articles/">WIKI</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/merchstore">MERCHSTORE</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/merchstore/">MERCHSTORE</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/profile">PROFILE</a>
+                    <a class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="/profile/">PROFILE</a>
                 </li>
             </ul>
             <div class="col-md-3 text-end">
+                <!-- two if statements because it crashes if im logged in as a user without a profile yet -->
                 {% if user.is_authenticated %}
                     {% if user.profile %}
                         <span class="me-3">Welcome, {{ user.profile.display_name }}!</span>
                         <form method="POST" action="{% url 'logout' %}" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                            <button type="submit" class="login-btn">Logout</button>
                         </form>
                     {% else %}
                         <span class="me-3">Welcome, {{ user.username }}!</span>
                         <form method="POST" action="{% url 'logout' %}" style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                            <button type="submit" class="login-btn">Logout</button>
                         </form>
                     {% endif %}
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                    <a href="{% url 'login' %}" class="login-btn">Login</a>
                 {% endif %}
             </div>
         </header>
     </nav>
     
     <article>
+
     {% block content %}
     
     {% endblock %}
@@ -95,6 +141,7 @@
         <li class="nav-item"><a href="/forum/threads" class="nav-link px-2 text-body-secondary">Forum</a></li>
         <li class="nav-item"><a href="/wiki/articles" class="nav-link px-2 text-body-secondary">Wiki</a></li>
         <li class="nav-item"><a href="/merchstore" class="nav-link px-2 text-body-secondary">Merchstore</a></li>
+        <li><a class="nav-link px-2 link-secondary" href="/profile">Profile</a></li>
         </ul>
         <p class="text-center text-body-secondary">© CSCI Midterms Group 11 :))</p>
     </footer>

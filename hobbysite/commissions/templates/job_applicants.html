@@ -3,32 +3,37 @@
 {% block title %} Job Applicants {% endblock %}
 
 {% block content %}
+  <link rel="stylesheet" href="{% static 'commissionsstyle.css' %}">
+  <h1>Applicants to {{ job.role }}</h1>
 
-<h3>Applicants to {{ job.role }}</h3>
-{% if applicants %}
-  <ul>
+  <!-- If there are applicants, display applicants -->
+  {% if applicants %}
+  <div class="container">
     {% for app in applicants %}
-      <li>
-        <strong>Applicant: {{ app.applicant.user.username }}</strong>
+      <div class="box">
+        <p class="mini-header">Applicant: {{ app.applicant.user.username }} <br>
+            Applied {{ app.applied_on}}
+        </p>
         <form method="post">
           {% csrf_token %}
           <input type="hidden" name="application_id" value="{{ app.id }}">
+          
           <label for="action_{{ app.id }}">Status:</label>
+          <!--For selecting an action--> 
           <select name="action" id="action_{{ app.id }}">
             <option value="Pending" {% if app.status == "Pending" %}selected{% endif %}>Pending</option>
             <option value="Accepted" {% if app.status == "Accepted" %}selected{% endif %}>Accepted</option>
             <option value="Rejected" {% if app.status == "Rejected" %}selected{% endif %}>Rejected</option>
-          </select> <br>
+          </select><br>
           <button type="submit">Update Applicant Status</button>
         </form>
-        <p>----------------------------------</p>
-      </li>
+      </div>
     {% endfor %}
-  </ul>
-{% else %}
-  <p>No applicants yet.</p>
-{% endif %}
+  </div>
+  {% else %}
+    <p class="item">No applicants yet.</p>
+  {% endif %}
 
-<a href="{% url 'commissions:detail' num=job.commission.pk %}"><button type="button">Save</button></a>
+  <a href="{% url 'commissions:detail' num=job.commission.pk %}"><button type="button">Save</button></a>
 
 {% endblock %}

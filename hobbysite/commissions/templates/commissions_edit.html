@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Edit Commission{% endblock %}
 
 {% block content %}
-    <h2>Add a New Commission</h2>
+    <link rel="stylesheet" href="{% static 'commissionsstyle.css' %}">
+    <h1>Add a New Commission</h1>
 
     <form method="post">
         {% csrf_token %}
@@ -15,7 +17,7 @@
         <h4>Edit Jobs</h4>
         {{ formset.management_form }}
         {% for job_form in formset %}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <div>
                 {{ job_form.as_p }} 
                 {% if job_form.instance.pk %}
                 {% endif %}
