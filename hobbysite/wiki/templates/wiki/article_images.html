@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Add Images to: {{ article.title}} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'wiki/css/lakers.css' %}">
+<h2>Add Images to: {{ article.title}}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="lakers-btn-purple">Update</button>
+</form>
+
+<a href="{% url 'wiki:article_detail' num=article.pk %}" class="lakers-btn-purple">Back to article</a>
+{% endblock %}

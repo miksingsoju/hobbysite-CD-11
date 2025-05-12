@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %} {{ article.title }} {% endblock %}
+
+{% block content %}
+<div class="container col-md-9 my-4">
+    <h1 class="text-dark">{{ thread.title }}</h1>
+
+    {% if thread.author %}
+        <p class="lead text-muted">Posted by <strong>{{ thread.author }}</strong></p>
+    {% else %}
+        <p class="lead text-muted">Posted by an <strong>Anonymous user</strong> </p>
+    {% endif %}
+    
+    <div class="mx-auto mt-4">
+    <a href="{% url 'forum:thread_list'%}" class="btn btn-primary">
+    Back to Threads
+    </a>
+    </div>
+    
+    <article class="article-detail px-5 p-4 m-4 shadow-sm rounded bg-light">
+    
+    <!-- Thread metadata header -->
+
+    <header class="mt-2">
+        {% if user.is_authenticated and user == thread.author %}
+        <div class="text-start">
+            <a href="{% url 'forum:thread_update' thread.id %}" class="btn card shadow-sm col-md-1 text-primary mt-0">
+            Edit 
+            </a>
+        </div>
+        {% endif %}
+        <p class="col-md-10 p-1 mt-2 text-muted text-start">
+            <strong>Category:</strong> 
+            {% if thread.category %}
+                {{ thread.category.name }}
+            {% endif %}
+            <br>
+            <strong>Published:</strong> {{ thread.created_on|date:"F j, Y, g:i a" }} 
+            <br>
+            <strong>Last updated:</strong> {{ thread.updated_on|date:"F j, Y, g:i a" }}
+        </p>     
+    </header>
+
+    <!-- Thread main content; text entry + image if present -->
+     
+    <div class="d-flex col column-gap-2">
+        {% if thread.image %}
+        <div class="col-md-6 card shadow my-3 px-3 py-3 pb-1 text-start">
+            <p>
+            {{ thread.entry }} 
+            </p>
+        </div>
+        <div class="col-md-6 card shadow my-3 px-3 py-3 pb-1">
+            <img src="{{ thread.image.url }}">
+        </div>
+        {% else %}
+        <div class="col-md-12 card shadow my-3 px-3 py-3 pb-1 text-start">
+            <p>
+            {{ thread.entry }} 
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Other thread links within same category -->
+
+    {% if not onlyInCategory %}
+    <div class="d-flex col column-gap-5 mx-4" style="justify-content: center;">
+        <div class="d-flex row col-md-3"> 
+            <h6 class="text-center"> Previous: </h6>
+            <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="btn btn-primary">
+            {{ prev_thread.title }}
+            </a>
+        </div>
+        <div class="d-flex row col-md-3"> 
+            <h6 class="text-center"> Next: </h6>
+            <a href="{% url 'forum:thread_detail' next_thread.id %}" class="btn btn-primary">
+            {{ next_thread.title }}
+            </a>
+        </div>
+    </div>
+    {% elif onlyInCategory == 'pair' %}
+    <div class="d-flex col column-gap-5 mx-4" style="justify-content: center;">
+        <div class="d-flex row col-md-3"> 
+            <h6 class="text-center"> Other: </h6>
+            <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="btn btn-primary">
+            {{ prev_thread.title }}
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    
+    </article>
+
+    <!-- Comment section; for logged-in only -->
+
+    <article class="article-detail px-5 p-4 m-4 shadow-sm rounded bg-light">
+    <h4 class="m-1 pb-2 text-muted text-start">Comments:</h4>    
+    {% if comments %}    
+    <div>
+        {% for comment in comments %}
+        <div class="card shadow-sm px-4 pt-3 my-3 text-start">
+            {% if comment.author %}
+            <h5 class="p-1 text">{{ comment.author }}:</h5>
+            {% else %}
+            <h5 class="p-1 text">Anonymous user:</h5>
+            {% endif %}
+
+            <p class="px-1 mb-0 text-start">
+            {{ comment.entry }}
+            </p>
+            <span class="mb-2 mt-0 text-end text-muted" style="font-style: italic;">
+            uploaded on {{ comment.created_on|date:"F j, Y, g:i a" }} 
+            </span>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="pt-3 text-center text-danger">No comments yet.</p>
+    {% endif %}
+
+    <!-- Add new comment; for logged-in only -->
+
+    {% if user.is_authenticated %}
+    <div class="px-4">
+        <h5 class="my-1 py-2 text-secondary text-start">Add comment:</h5>
+        <hr class="mt-0 mb-5">
+        <div class="width-100">
+            <form method="POST">
+            {% csrf_token %}
+            {{ form }} 
+            <input type="submit" value="Submit">  
+        </div>
+    </div>
+    {% endif %}
+        
+    </div>
+    </article>
+</div>
+{%endblock%}
