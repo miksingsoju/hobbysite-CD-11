@@ -21,7 +21,7 @@
     
     <!-- Thread metadata header -->
 
-    <header class="mt-2">
+    <header class="mt-2 bg-light">
         {% if user.is_authenticated and user == thread.author %}
         <div class="text-start">
             <a href="{% url 'forum:thread_update' thread.id %}" class="btn card shadow-sm col-md-1 text-primary mt-0">
