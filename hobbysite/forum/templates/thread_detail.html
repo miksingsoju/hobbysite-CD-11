@@ -65,23 +65,28 @@
     <!-- Other thread links within same category -->
 
     {% if not onlyInCategory %}
-    <div class="d-flex col column-gap-2">
-        Previous:
-        <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="text-primary">
-        {{ prev_thread.title }}
-        </a>
-        Next:
-        <a href="{% url 'forum:thread_detail' next_thread.id %}" class="text-primary">
-        {{ next_thread.title }}
-        </a>
+    <div class="d-flex col column-gap-5 mx-4" style="justify-content: center;">
+        <div class="d-flex row col-md-3"> 
+            <h6 class="text-center"> Previous: </h6>
+            <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="btn btn-primary">
+            {{ prev_thread.title }}
+            </a>
+        </div>
+        <div class="d-flex row col-md-3"> 
+            <h6 class="text-center"> Next: </h6>
+            <a href="{% url 'forum:thread_detail' next_thread.id %}" class="btn btn-primary">
+            {{ next_thread.title }}
+            </a>
+        </div>
     </div>
-
     {% elif onlyInCategory == 'pair' %}
-    <div class="d-flex col column-gap-2">
-        Other:
-        <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="text-primary">
-        {{ prev_thread.title }}
-        </a>
+    <div class="d-flex col column-gap-5 mx-4" style="justify-content: center;">
+        <div class="d-flex row col-md-3"> 
+            <h6 class="text-center"> Other: </h6>
+            <a href="{% url 'forum:thread_detail' prev_thread.id %}" class="btn btn-primary">
+            {{ prev_thread.title }}
+            </a>
+        </div>
     </div>
     {% endif %}
     
