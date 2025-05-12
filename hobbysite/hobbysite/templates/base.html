@@ -43,16 +43,11 @@
 
         article {
             margin: 20px;
+            background-color: white;
             text-align: center;
             background-color: #FFC72C; 
             padding: 40px;
             text-align: center;
-
-        }
-
-        article .article-header {
-            background-color: #552583 !important;
-
         }
 
         ul {
@@ -62,16 +57,15 @@
             display: flex;
         }
 
-        header, footer, footer p{
-        background-color: #4c0082da; 
+        header {
+        background-color: #4c0082da; /* deep purple */
         color: orange;
         padding: 20px;
         text-align: center;
         position: relative;
 
         nav header {
-
-    background-color: #4B0082 !important; 
+    background-color: #4B0082 !important;  /* Lakers purple */
     color: orange !important;
     }
 
@@ -87,6 +81,7 @@
         text-decoration: underline;
     }
 
+    /* Login/Logout buttons */
     .login-btn {
         background-color: transparent;
         border: 1px solid orange;
@@ -163,14 +158,14 @@
     </article>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="/blog/articles/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Blog</a></li>
-        <li class="nav-item"><a href="/commissions/list/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Commission</a></li>
-        <li class="nav-item"><a href="/forum/threads/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Forum</a></li>
-        <li class="nav-item"><a href="/wiki/articles/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Wiki</a></li>
-        <li class="nav-item"><a href="/merchstore/items/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Merchstore</a></li>
-        <li class="nav-item"><a href="/profile/" class="nav-links px-2 link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Profile</a></li>
+        <li class="nav-item"><a href="/blog/articles" class="nav-link px-2 text-body-secondary">Blog</a></li>
+        <li class="nav-item"><a href="/commissions/list" class="nav-link px-2 text-body-secondary">Commission</a></li>
+        <li class="nav-item"><a href="/forum/threads" class="nav-link px-2 text-body-secondary">Forum</a></li>
+        <li class="nav-item"><a href="/wiki/articles" class="nzav-link px-2 text-body-secondary">Wiki</a></li>
+        <li class="nav-item"><a href="/merchstore/items/" class="nav-link px-2 text-body-secondary">Merchstore</a></li>
+        <li><a class="nav-link px-2 link-secondary" href="/profile">Profile</a></li>
         </ul>
-        <p class="text-center">© CSCI Midterms Group 11 :))</p>
+        <p class="text-center text-body-secondary">© CSCI Midterms Group 11 :))</p>
     </footer>
 </body>
 </html>

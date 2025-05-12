@@ -1,30 +1,74 @@
 {% extends "base.html" %}
-{% block title%} Blog List {%endblock%}
+{% load static %}
+
+{% block title %}Articles{% endblock %}
+
 {% block content %}
-<div class="container">
-  <!-- Main heading for the categories page -->
-  <h1 class="text-center my-4">The Basketball G.O.A.T.s</h1>
-  
-  <!-- Bootstrap row to organize category cards -->
-  <div class="row">
-    {% for category in categories %}
-      <!-- Each category is placed in a column (3 per row on medium screens) -->
-      <div class="col-md-4">
-        <!-- Card for a single category with margin and shadow for styling -->
-        <div class="card mb-3 shadow">
-          <div class="card-body">
-            <!-- Category Title with a clickable link to articles of that category -->
-            <h3 class="card-title">
-              <a href="{% url 'blog:articles_by_category' category.id %}" class="text-decoration-none text-dark">
-                {{ category.name }}
-              </a>
-            </h3>
-            <!-- Display the category description -->
-            <p class="card-text">{{ category.description }}</p>
+<link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+
+<div class="container my-5">
+
+  {% if user.is_authenticated %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Your Articles</h2>
+      <a href="{% url 'blog:article_add' %}" class="btn btn-primary">+ New Article</a>
+    </div>
+
+    {% if user_articles %}
+      <div class="row g-3 mb-5">
+        {% for article in user_articles %}
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="{% url 'blog:article_detail' article.id %}">
+                    {{ article.title }}
+                  </a>
+                </h5>
+                <p class="card-text">
+                  <small class="text-muted">
+                    {{ article.category.name }} · {{ article.created_on|date:"M j, Y" }}
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">You haven’t written any articles yet.</p>
+    {% endif %}
+  {% endif %}
+
+  <h2 class="mt-4 mb-3">All Other Articles</h2>
+  {% for category, articles in grouped_articles.items %}
+    <h4 class="mt-3">{{ category.name }}</h4>
+    <div class="row g-3 mb-4">
+      {% for article in articles %}
+        <div class="col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url 'blog:article_detail' article.id %}">
+                  {{ article.title }}
+                </a>
+              </h5>
+              <p class="card-text">
+                <small class="text-muted">
+                  {% if article.author %}
+                    by {{ article.author.display_name }} ·
+                  {% endif %}
+                  {{ article.created_on|date:"M j, Y" }}
+                </small>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% empty %}
+    <p class="text-muted">No articles to display.</p>
+  {% endfor %}
+
 </div>
 {% endblock %}
