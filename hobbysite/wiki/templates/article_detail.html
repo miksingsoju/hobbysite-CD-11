@@ -9,4 +9,14 @@
 <p style="border: 1px solid black; width: 70%; margin: 0 auto">
 {{article.entry}}
 </p>
+<div>
+    {% if previous_article %}
+        <a href="{{ previous_article.get_absolute_url }}">← {{ previous_article.title }}</a>
+    {% endif %}
+
+    {% if next_article %}
+        <span style="margin-left: 20px;"></span>
+        <a href="{{ next_article.get_absolute_url }}">{{ next_article.title }} →</a>
+    {% endif %}
+</div>
 {%endblock%}

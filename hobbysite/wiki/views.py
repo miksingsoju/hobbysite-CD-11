@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Article, ArticleCategory
+from django.shortcuts import render, redirect
+from .models import Article, ArticleCategory, Comment
+from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 # For debugging only
@@ -36,7 +37,44 @@ def articles(request):
 # Gives the full details of the article
 def article_detail(request, num=1):
     article = Article.objects.get(pk=num)
-    return render(request, "article_detail.html", {"article": article})
+    related_articles = list(Article.objects.filter(category=article.category).order_by("created_on")) # allows me to traverse them in order
+    comments = Comment.objects.filter(article=article).order_by('-created_on')
+    
+    # Handle logic for comments
+    form = None
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.article = article
+                comment.author = request.user.profile
+                comment.save()
+                return redirect('wiki:article_detail', num=num)
+        else:
+            form = CommentForm()
+            
+    previous = None
+    next_article = None
+    
+    # Get index of the viewed article, then look for potential previous or next articles
+    try:
+        index = related_articles.index(article)
+    except ValueError:
+        index = -1
+        
+    previous = related_articles[index - 1] if index > 0 else None
+    next_article = related_articles[index + 1] if index + 1 < len(related_articles) else None
+    
+    context = {
+        "article": article,
+        "comments": comments,
+        "form": form,
+        "previous": previous,
+        "next_article": next_article
+    }
+    
+    return render(request, "article_detail.html", context)
 
 def add_article(request):
     return HttpResponse("Hehe still under construction")
