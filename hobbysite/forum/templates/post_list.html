@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title%} Blog List {%endblock%}
+{% block content %}
+
+<div class="container">
+
+  <!-- Main heading -->
+  <h1 class="text-center my-4">Forum</h1>
+  
+<div class="row">
+
+  {% for category in categories %}
+  <div class="col-md-4">
+    <!-- Category Cards -->
+    <div class="card mb-3 shadow">
+      <div class="card-body">
+      <!-- Category Title & link -->
+        <h3 class="card-title">
+          <a href="{% url 'forum:posts_by_category' category.id %}" class="text-decoration-none text-dark">
+          {{ category.name }}
+          </a>
+        </h3>
+      <!-- Category Description -->
+      <p class="card-text">{{ category.description }}</p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

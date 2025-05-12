@@ -43,23 +43,42 @@
             </div>
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/blog">BLOG</a>
+                    <a class="nav-link px-2 link-secondary" href="/blog/articles">BLOG</a>
                 </li>
                 <li>
                     <a class="nav-link px-2 link-secondary" href="/commissions/list">COMMISSION</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/forum">FORUM</a>
+                    <a class="nav-link px-2 link-secondary" href="/forum/threads">FORUM</a>
                 </li>
                 <li>
-                    <a class="nav-link px-2 link-secondary" href="/wiki">WIKI</a>
+                    <a class="nav-link px-2 link-secondary" href="/wiki/articles">WIKI</a>
                 </li>
                 <li>
                     <a class="nav-link px-2 link-secondary" href="/merchstore">MERCHSTORE</a>
                 </li>
+                <li>
+                    <a class="nav-link px-2 link-secondary" href="/profile">PROFILE</a>
+                </li>
             </ul>
             <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2">Login</button>
+                {% if user.is_authenticated %}
+                    {% if user.profile %}
+                        <span class="me-3">Welcome, {{ user.profile.display_name }}!</span>
+                        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                        </form>
+                    {% else %}
+                        <span class="me-3">Welcome, {{ user.username }}!</span>
+                        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary">Logout</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+                {% endif %}
             </div>
         </header>
     </nav>
@@ -71,10 +90,10 @@
     </article>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="/blog" class="nav-link px-2 text-body-secondary">Blog</a></li>
+        <li class="nav-item"><a href="/blog/articles" class="nav-link px-2 text-body-secondary">Blog</a></li>
         <li class="nav-item"><a href="/commissions/list" class="nav-link px-2 text-body-secondary">Commission</a></li>
-        <li class="nav-item"><a href="/forum" class="nav-link px-2 text-body-secondary">Forum</a></li>
-        <li class="nav-item"><a href="/wiki" class="nav-link px-2 text-body-secondary">Wiki</a></li>
+        <li class="nav-item"><a href="/forum/threads" class="nav-link px-2 text-body-secondary">Forum</a></li>
+        <li class="nav-item"><a href="/wiki/articles" class="nav-link px-2 text-body-secondary">Wiki</a></li>
         <li class="nav-item"><a href="/merchstore" class="nav-link px-2 text-body-secondary">Merchstore</a></li>
         </ul>
         <p class="text-center text-body-secondary">© CSCI Midterms Group 11 :))</p>
