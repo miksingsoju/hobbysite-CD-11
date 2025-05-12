@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils import timezone
-from .models import ThreadCategory, Thread
-from .forms import ThreadForm
+from .models import ThreadCategory, Thread, Comment
+from .forms import ThreadForm, CommentForm
 
 # Standard display views
 
@@ -11,6 +11,7 @@ def thread_list(request):
     threads = Thread.objects.all()
     no_cat_threads = Thread.objects.filter(category=None)
 
+    # condition for login-only displays
     user_threads = None
     if request.user.is_authenticated:
         user_threads = Thread.objects.filter(author=request.user)
@@ -26,10 +27,29 @@ def thread_list(request):
 def thread_detail(request, thread_id):
     thread = Thread.objects.filter(id=thread_id).first()
     comments = thread.comments.all()
+
     ctx = {
         'thread': thread,
         'comments': comments,
         }
+
+    # condition for login-only displays
+    if request.user.is_authenticated:
+        form = CommentForm()
+        ctx['form'] = form
+
+    if(request.method == "POST"):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            cm = Comment()
+            cm.author = request.user
+            cm.createdOn = timezone.now() # format of timezone.now() matches DateTimeField in models.
+            cm.updatedOn = cm.createdOn # if it's new, it's the same.
+
+            cm.thread = thread
+            cm.entry = form.cleaned_data.get('entry')
+            cm.save()
+    
     return render(request, 'thread_detail.html', ctx)
 
 # Add and/or modify content views; requires login

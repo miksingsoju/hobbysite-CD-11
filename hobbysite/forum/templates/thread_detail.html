@@ -16,10 +16,12 @@
     Back to Threads
     </a>
     </div>
+    
     <article class="article-detail px-5 p-4 m-4 shadow-sm rounded bg-light">
+    
+    <!-- Thread metadata header -->
 
     <header class="mt-2">
-
         <p class="p-1 mt-2 text-muted text-start">
             <strong>Category:</strong> 
             {% if thread.category %}
@@ -33,6 +35,7 @@
     </header>
 
     <!-- Thread main content; text entry + image if present -->
+     
     <div class="d-flex col column-gap-2">
         {% if thread.image %}
         <div class="col-md-4 card shadow my-3 px-3 py-3 pb-1 text-start">
@@ -51,8 +54,9 @@
         </div>
         {% endif %}
     </div>
-
     </article>
+
+    <!-- Comment section; for logged-in only -->
 
     <article class="article-detail px-5 p-4 m-4 shadow-sm rounded bg-light">
     <h4 class="m-1 pb-2 text-muted text-start">Comments:</h4>    
@@ -77,6 +81,22 @@
     {% else %}
         <p class="pt-3 text-center text-danger">No comments yet.</p>
     {% endif %}
+
+    <!-- Add new comment; for logged-in only -->
+
+    {% if user.is_authenticated %}
+    <div class="px-4">
+        <h5 class="my-1 py-2 text-secondary text-start">Add comment:</h5>
+        <hr class="mt-0 mb-5">
+        <div class="width-100">
+            <form method="POST">
+            {% csrf_token %}
+            {{ form }} 
+            <input type="submit" value="Submit">  
+        </div>
+    </div>
+    {% endif %}
+        
     </div>
     </article>
 </div>
