@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Article, ArticleCategory, Comment
-from .forms import ArticleForm, CommentForm
+from .forms import ArticleForm, CommentForm, WikiImageForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 # For debugging only
@@ -106,3 +106,24 @@ def edit_article(request, num=1):
         form = ArticleForm(instance=article)
         
     return render(request, "wiki/article_edit.html", {"form": form, "article": article})
+
+# For bonus points, made it so images are uploaded separately per article for image gallery
+@login_required
+def add_image(request, num=1):
+    article = Article.objects.get(pk=num)
+    
+    if request.method == 'POST':
+        form = WikiImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            article_image = form.save(commit=False)
+            article_image.article = article
+            article_image.save()
+            return redirect(article.get_absolute_url())
+        
+    else:
+        form = WikiImageForm()
+        
+    return render(request, "wiki/article_images.html", {
+        "article": article,
+        "form": form
+    })

@@ -1,6 +1,11 @@
 from django.contrib import admin
-from .models import Article, ArticleCategory, Comment
+from .models import Article, ArticleCategory, Comment, WikiImage
 from user_management.models import Profile
+
+class WikiImageInline(admin.StackedInline):
+    model = WikiImage
+    extra = 4
+    fields = ('image', 'description')
     
 @admin.register(ArticleCategory)
 class ArticleCategoryAdmin(admin.ModelAdmin):
@@ -14,6 +19,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ("category", "created_on")
     search_fields = ("title", )
     ordering = ("-created_on",)  # Sorts articles by newest first
+    inlines = [WikiImageInline]
     
     readonly_fields = ("created_on", "updated_on") # Prevents editing of dateandtime
     

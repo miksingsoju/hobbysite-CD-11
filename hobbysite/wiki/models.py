@@ -58,3 +58,9 @@ class Comment(models.Model):
     
     class Meta:
         ordering = ["created_on"]
+        
+# For bonus points 
+class WikiImage(models.Model):
+    image = models.ImageField(upload_to='wiki_images')
+    description = models.CharField(max_length=255)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="article_image")

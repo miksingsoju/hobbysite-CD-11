@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Comment
+from .models import Article, Comment, WikiImage
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -16,3 +16,8 @@ class ArticleForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-select'}),
             'entry': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
         }
+        
+class WikiImageForm(forms.ModelForm):
+    class Meta:
+        model = WikiImage
+        fields = ['image', 'description']

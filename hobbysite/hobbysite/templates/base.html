@@ -62,6 +62,7 @@
                 </li>
             </ul>
             <div class="col-md-3 text-end">
+                <!-- two if statements because it crashes if im logged in as a user without a profile yet -->
                 {% if user.is_authenticated %}
                     {% if user.profile %}
                         <span class="me-3">Welcome, {{ user.profile.display_name }}!</span>
