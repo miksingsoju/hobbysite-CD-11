@@ -3,13 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-
-
 from .forms import ProfileForm
 from .models import Profile
 
-# for debugging only
-from django.http import HttpResponse
 
 @login_required
 def update_profile(request):
