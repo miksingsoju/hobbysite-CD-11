@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from .forms import ProfileForm
 from .models import Profile
 
+
 @login_required
 def update_profile(request):
     profile = request.user.profile 
