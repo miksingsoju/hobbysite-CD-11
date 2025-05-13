@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Register {% endblock %}
 
 {% block content %}
 <style>
-    .login-container {
+    .register-container {
         max-width: 400px;
         margin: 10vh auto;
         padding: 2rem;
@@ -14,40 +14,47 @@
         font-size: 1.2rem;
     }
 
-    .login-container input {
+    .register-container input {
         width: 100%;
         padding: 10px;
         margin: 10px 0;
         font-size: 1rem;
     }
 
-    .login-container button {
+    .register-container button {
         padding: 10px 20px;
         font-size: 1rem;
         border: 2px solid black;
-        background-color: white;
         cursor: pointer;
         margin-top: 1rem;
     }
 
-    .login-container button:hover {
+    .register-container button:hover {
         background-color: black;
         color: white;
     }
 </style>
 
-<div class="login-container">
-    <h2>Login</h2>
+<div class="register-container">
+    <h2>Register</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
 
-        <button type="submit">Log In</button>
+        <button type="submit">Sign Up</button>
     </form>
 
     {% if form.errors %}
-        <p style="color:red;">Invalid username or password</p>
+        <ul style="color:red;">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
-    <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
 </div>
 {% endblock %}
