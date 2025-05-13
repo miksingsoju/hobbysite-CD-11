@@ -1,14 +1,19 @@
 from django.contrib import admin
-from .models import Article, ArticleCategory
+from .models import Article, ArticleCategory, Comment
 
+@admin.register(ArticleCategory)
 class ArticleCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
+@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_on', 'updated_on')
-    list_filter = ('category', 'created_on')
+    list_display  = ('title', 'author', 'category', 'created_on', 'updated_on')
+    list_filter   = ('author', 'category', 'created_on')
     search_fields = ('title', 'entry')
 
-admin.site.register(Article, ArticleAdmin)
-admin.site.register(ArticleCategory, ArticleCategoryAdmin)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display  = ('article', 'author', 'created_on')
+    list_filter   = ('author', 'article')
+    search_fields = ('entry',)
